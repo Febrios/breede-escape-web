@@ -1,5 +1,5 @@
-import Gallery from "./components/Gallery";
-import { fetchGalleryImages } from "../lib/sanity";
+import Gallery from "../components/Gallery";
+import { fetchGalleryImages } from "../../lib/sanity";
 
 export default async function GalleryPage() {
     const images = await fetchGalleryImages();
