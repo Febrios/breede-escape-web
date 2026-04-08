@@ -7,8 +7,6 @@ export default function Navbar() {
         <a className="text-zinc-800 dark:text-zinc-100 hover:underline ml-4" href="/gallery">Gallery</a>
         <a className="text-zinc-800 dark:text-zinc-100 hover:underline ml-4" href="/availability">Availability</a>
         <a className="text-zinc-800 dark:text-zinc-100 hover:underline ml-4" href="/contact">Contact</a>
-        <a className="text-zinc-800 dark:text-zinc-100 hover:underline" href="#gallery">Gallery</a>
-        <a className="text-zinc-800 dark:text-zinc-100 hover:underline" href="#contact">Contact</a>
       </div>
     </nav>
   );
