@@ -4,6 +4,7 @@ export default {
     title: 'Camp',
     type: 'document',
     fields: [
+        // @ts-ignore
         { name: 'name', title: 'Camp Name', type: 'string', validation: Rule => Rule.required() },
         { name: 'tagline', title: 'Tagline', type: 'string' },
         { name: 'description', title: 'Description', type: 'text' },

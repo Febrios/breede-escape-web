@@ -1,4 +1,4 @@
-import { sanityClient } from "../../lib/sanity";
+import { sanityClient } from "./sanity";
 
 export const fetchPages = async () => {
     const data = await sanityClient.fetch(`*[_type == "page"]{ _id, title, slug, content }`);
