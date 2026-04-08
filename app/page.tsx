@@ -1,11 +1,14 @@
 import { fetchRooms } from "../lib/sanity";
 import Image from "next/image";
 
+import Hero from "./components/Hero";
+
 export default async function Home() {
   const rooms = await fetchRooms();
 
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
+      <Hero />
       <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-16 px-8 bg-white dark:bg-black sm:items-start">
         <h1 className="text-3xl font-semibold mb-8">Breede Escape Rooms</h1>
         {rooms && rooms.length > 0 ? (
