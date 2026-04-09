@@ -13,7 +13,10 @@ export const fetchSiteSettings = async () => {
       asset->{url}
     },
     aboutImage,
-    galleryContent
+    galleryContent,
+    galleryImages[]{
+      asset->{url}
+    }
   }`);
   return data;
 };

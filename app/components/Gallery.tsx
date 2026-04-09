@@ -1,20 +1,12 @@
 
-import { sanityClient } from "../../lib/sanity";
 import { fetchSiteSettings } from "../../lib/fetchSiteSettings";
 import Image from "next/image";
 
 
 export default async function Gallery() {
-    // Fetch gallery images from Sanity
-    const images = await sanityClient.fetch(`*[_type == "galleryImage"]|order(_createdAt asc){
-        _id,
-        "url": image.asset->url,
-        alt,
-        caption
-    }`);
-    // Fetch gallery content from site settings
     const siteSettings = await fetchSiteSettings();
     const galleryContent = siteSettings?.galleryContent || "Thatched huts, wide river skies, old trees throwing afternoon shade, and campfires that outlast the stars.";
+    const images = siteSettings?.galleryImages || [];
 
     return (
         <section className="gallery py-32 bg-[var(--moss)]" id="gallery">
@@ -26,10 +18,10 @@ export default async function Gallery() {
                 <p className="gallery-intro text-[1rem] text-[rgba(245,240,232,0.65)] font-light leading-[1.8] max-w-[540px] mb-14">{galleryContent}</p>
                 <div className="gallery-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 grid-rows-2 gap-1">
                     {images.slice(0, 5).map((img: any, i: number) => (
-                        <div key={img._id} className={`gallery-item overflow-hidden ${i === 0 ? 'row-span-2 col-span-1' : ''}`}>
+                        <div key={img.asset?.url || i} className={`gallery-item overflow-hidden ${i === 0 ? 'row-span-2 col-span-1' : ''}`}>
                             <Image
-                                src={img.url}
-                                alt={img.alt || `Gallery image ${i + 1}`}
+                                src={img.asset?.url}
+                                alt={`Gallery image ${i + 1}`}
                                 width={i === 0 ? 900 : 600}
                                 height={i === 0 ? 480 : 240}
                                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 hover:saturate-110 hover:brightness-100 saturate-90 brightness-95"

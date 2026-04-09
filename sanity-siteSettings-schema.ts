@@ -45,6 +45,13 @@ const siteSettings = {
             description: 'Text or description for the Gallery section',
         },
         {
+            name: 'galleryImages',
+            title: 'Gallery Images',
+            type: 'array',
+            of: [{ type: 'image', options: { hotspot: true } }],
+            description: 'Gallery images for the site gallery section',
+        },
+        {
             name: 'rules',
             title: 'Rules',
             type: 'array',
