@@ -16,7 +16,7 @@ export default function RootLayout({
     <html lang="en">
       <body className="min-h-full flex flex-col bg-[var(--cream)]">
         <Navbar />
-        <div className="pt-24">{children}</div>
+        <div>{children}</div>
       </body>
     </html>
   );

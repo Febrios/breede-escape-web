@@ -1,6 +1,5 @@
 import Hero from "./components/Hero";
 import About from "./components/About";
-import NoticeBar from "./components/NoticeBar";
 import Camps from "./components/Camps";
 import Rates from "./components/Rates";
 import Activities from "./components/Activities";
@@ -14,16 +13,17 @@ export default async function Home() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-[var(--cream)] font-sans">
       <Hero />
-      <About />
-      <Camps />
-      <Rates />
-      <Activities />
-      <Gallery />
-      <Reviews />
-      <Location />
-      <Booking />
-      <Footer />
-      <NoticeBar />
+      <div className="pt-24 w-full">
+        <About />
+        <Camps />
+        <Rates />
+        <Activities />
+        <Gallery />
+        <Reviews />
+        <Location />
+        <Booking />
+        <Footer />
+      </div>
     </div>
   );
 }
