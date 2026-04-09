@@ -16,14 +16,14 @@ export default async function Gallery() {
                     The <em className="text-[var(--gold)] italic not-italic">view</em> from here
                 </h2>
                 <p className="gallery-intro text-[1rem] text-[rgba(245,240,232,0.65)] font-light leading-[1.8] max-w-[540px] mb-14">{galleryContent}</p>
-                <div className="gallery-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 grid-rows-2 gap-1">
-                    {images.slice(0, 5).map((img: any, i: number) => (
-                        <div key={img.asset?.url || i} className={`gallery-item overflow-hidden ${i === 0 ? 'row-span-2 col-span-1' : ''}`}>
+                <div className="gallery-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-1">
+                    {images.map((img: any, i: number) => (
+                        <div key={img.asset?.url || i} className={`gallery-item overflow-hidden`}>
                             <Image
                                 src={img.asset?.url}
                                 alt={`Gallery image ${i + 1}`}
-                                width={i === 0 ? 900 : 600}
-                                height={i === 0 ? 480 : 240}
+                                width={600}
+                                height={400}
                                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 hover:saturate-110 hover:brightness-100 saturate-90 brightness-95"
                             />
                         </div>
