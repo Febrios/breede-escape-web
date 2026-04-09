@@ -7,7 +7,13 @@ export const fetchSiteSettings = async () => {
     address,
     socialLinks,
     aboutText,
-    rules
+    rules,
+    heroContent,
+    heroBackground{
+      asset->{url}
+    },
+    aboutImage,
+    galleryContent
   }`);
   return data;
 };

@@ -67,12 +67,15 @@ const GoogleReviews: React.FC = () => {
                     >
                         <div className="flex items-center mb-3">
                             {review.profile_photo_url ? (
-                                <img
-                                    src={review.profile_photo_url}
-                                    alt={review.author_name}
-                                    className="w-10 h-10 rounded-full mr-3 object-cover bg-gray-200"
-                                    onError={e => (e.currentTarget.src = '/default-avatar.png')}
-                                />
+                                <>
+                                    {typeof window !== 'undefined' && console.log('Google Review Image URL:', review.profile_photo_url)}
+                                    <img
+                                        src={review.profile_photo_url}
+                                        alt={review.author_name}
+                                        className="w-10 h-10 rounded-full mr-3 object-cover bg-gray-200"
+                                        onError={e => (e.currentTarget.src = '/default-avatar.png')}
+                                    />
+                                </>
                             ) : (
                                 <div
                                     className="w-10 h-10 rounded-full mr-3 flex items-center justify-center bg-[var(--clay)] text-[var(--cream)] font-bold text-lg select-none"

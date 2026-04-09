@@ -1,6 +1,6 @@
 import Image from "next/image";
 import CampSlider from "./CampSlider";
-import { sanityClient } from "../../lib/sanity";
+import { sanityClient, urlFor } from "../../lib/sanity";
 
 export default async function Camps() {
     // Fetch camps from Sanity
@@ -10,11 +10,10 @@ export default async function Camps() {
             tagline,
             description,
             features,
-            "imageUrl": image.asset->url,
+            image,
             gallery[]{
                 ...,
-                "asset": asset->,
-                "url": asset->url
+                asset->
             },
             link
         }`);
@@ -32,7 +31,7 @@ export default async function Camps() {
                             {camp.gallery && camp.gallery.length > 0 && (
                                 <CampSlider
                                     images={camp.gallery.map((img: any, i: number) => ({
-                                        url: img.url || img.asset?.url || "https://via.placeholder.com/900x560",
+                                        url: img.asset ? urlFor(img.asset).width(900).height(560).quality(100).url() : "https://via.placeholder.com/900x560",
                                         alt: camp.name + ' photo ' + (i + 1),
                                     }))}
                                 />

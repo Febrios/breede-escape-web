@@ -1,5 +1,8 @@
+
 import { sanityClient } from "../../lib/sanity";
+import { fetchSiteSettings } from "../../lib/fetchSiteSettings";
 import Image from "next/image";
+
 
 export default async function Gallery() {
     // Fetch gallery images from Sanity
@@ -9,6 +12,9 @@ export default async function Gallery() {
         alt,
         caption
     }`);
+    // Fetch gallery content from site settings
+    const siteSettings = await fetchSiteSettings();
+    const galleryContent = siteSettings?.galleryContent || "Thatched huts, wide river skies, old trees throwing afternoon shade, and campfires that outlast the stars.";
 
     return (
         <section className="gallery py-32 bg-[var(--moss)]" id="gallery">
@@ -17,7 +23,7 @@ export default async function Gallery() {
                 <h2 className="section-title font-serif text-[clamp(2.2rem,5vw,3.8rem)] font-bold leading-tight text-[var(--cream)] mb-6">
                     The <em className="text-[var(--gold)] italic not-italic">view</em> from here
                 </h2>
-                <p className="gallery-intro text-[1rem] text-[rgba(245,240,232,0.65)] font-light leading-[1.8] max-w-[540px] mb-14">Thatched huts, wide river skies, old trees throwing afternoon shade, and campfires that outlast the stars.</p>
+                <p className="gallery-intro text-[1rem] text-[rgba(245,240,232,0.65)] font-light leading-[1.8] max-w-[540px] mb-14">{galleryContent}</p>
                 <div className="gallery-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 grid-rows-2 gap-1">
                     {images.slice(0, 5).map((img: any, i: number) => (
                         <div key={img._id} className={`gallery-item overflow-hidden ${i === 0 ? 'row-span-2 col-span-1' : ''}`}>

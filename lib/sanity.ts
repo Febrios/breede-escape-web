@@ -1,3 +1,4 @@
+import imageUrlBuilder from '@sanity/image-url';
 import { createClient } from "next-sanity";
 
 export const sanityClient = createClient({
@@ -7,3 +8,8 @@ export const sanityClient = createClient({
   useCdn: false, // `false` for fresh data
   token: process.env.SANITY_API_TOKEN,
 });
+
+const builder = imageUrlBuilder(sanityClient);
+export function urlFor(source: any) {
+  return builder.image(source);
+}

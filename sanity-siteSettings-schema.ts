@@ -39,10 +39,36 @@ const siteSettings = {
             type: 'text',
         },
         {
+            name: 'galleryText',
+            title: 'Gallery Text',
+            type: 'text',
+            description: 'Text or description for the Gallery section',
+        },
+        {
             name: 'rules',
             title: 'Rules',
             type: 'array',
             of: [{ type: 'string' }],
+        },
+        {
+            name: 'heroContent',
+            title: 'Hero Content',
+            type: 'text',
+            description: 'Main text or tagline for the Hero section',
+        },
+        {
+            name: 'heroBackground',
+            title: 'Hero Background Image',
+            type: 'image',
+            options: { hotspot: true },
+            description: 'Background image for the Hero section',
+        },
+        {
+            name: 'aboutImage',
+            title: 'About Image',
+            type: 'image',
+            options: { hotspot: true },
+            description: 'Image for the About section',
         },
     ],
 };

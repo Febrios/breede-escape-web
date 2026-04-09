@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { fetchSiteSettings } from "../../lib/fetchSiteSettings";
+import { urlFor } from "../../lib/sanity";
 
 export default async function About() {
     const siteSettings = await fetchSiteSettings();
@@ -22,7 +23,7 @@ export default async function About() {
                     <div className="about-image-wrap relative">
                         <Image
                             className="about-image w-full h-[48vw] min-h-[180px] max-h-[320px] sm:h-[500px] object-cover saturate-[0.9]"
-                            src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&q=80"
+                            src={siteSettings?.aboutImage ? urlFor(siteSettings.aboutImage).width(900).height(600).quality(100).url() : "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&q=80"}
                             alt="River camp at dusk"
                             width={600}
                             height={500}

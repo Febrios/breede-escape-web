@@ -1,10 +1,18 @@
-export default function Hero() {
+import { fetchSiteSettings } from "../../lib/fetchSiteSettings";
+import { urlFor } from "../../lib/sanity";
+
+export default async function Hero() {
+  // Fetch hero content from Sanity site settings
+  const siteSettings = await fetchSiteSettings();
+  const heroContent = siteSettings?.heroContent || "Escape to the banks of the Breede River — a working farm, thatched huts, and wide-open skies just 15km outside Bonnievale.";
+  const heroBgUrl = siteSettings?.heroBackground ? urlFor(siteSettings.heroBackground).width(1600).quality(100).url() : "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80";
+
   return (
     <header
       className="hero min-h-screen flex flex-col justify-end relative overflow-hidden w-full"
       style={{
         background:
-          "linear-gradient(to bottom, rgba(15,26,15,0.55) 0%, rgba(15,26,15,0.3) 50%, rgba(15,26,15,0.75) 100%), url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80') center/cover no-repeat",
+          `linear-gradient(to bottom, rgba(15,26,15,0.55) 0%, rgba(15,26,15,0.3) 50%, rgba(15,26,15,0.75) 100%), url('${heroBgUrl}') center/cover no-repeat`,
       }}
     >
       <div className="section-inner max-w-[1600px] mx-auto px-[3vw] w-full pb-[8vh]">
@@ -15,7 +23,7 @@ export default function Hero() {
           Life at the <em className="text-[var(--gold)] italic not-italic">River.</em>
         </h1>
         <p className="hero-sub mt-6 text-[clamp(0.95rem,2vw,1.15rem)] text-[rgba(245,240,232,0.75)] font-light max-w-[480px] leading-[1.7] mb-4" style={{ opacity: 1, animation: 'fadeUp 0.9s 0.7s forwards' }}>
-          Escape to the banks of the Breede River — a working farm, thatched huts, and wide-open skies just 15km outside Bonnievale.
+          {heroContent}
         </p>
         <div className="hero-actions flex gap-4 mt-10" style={{ opacity: 1, animation: 'fadeUp 0.9s 0.9s forwards' }}>
           <a href="#booking" className="btn-primary bg-[var(--clay)] text-[var(--cream)] px-8 py-4 text-[0.9rem] font-medium uppercase tracking-wide rounded-sm no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors">Reserve Your Camp</a>
