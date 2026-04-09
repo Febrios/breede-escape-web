@@ -1,12 +1,12 @@
 export default function Location() {
     return (
-        <section className="location py-32 bg-[var(--forest)]" id="location">
-            <div className="section-inner max-w-[1200px] mx-auto px-[5vw]">
+        <section className="location py-20 sm:py-32 bg-[var(--forest)]" id="location">
+            <div className="section-inner max-w-[1600px] mx-auto px-[3vw]">
                 <span className="section-tag text-[var(--sage)] text-[0.72rem] font-medium tracking-widest uppercase mb-4 block">Finding Us</span>
                 <h2 className="section-title font-serif text-[clamp(2.2rem,5vw,3.8rem)] font-bold leading-tight text-[var(--cream)] mb-10">
                     Getting <em className="text-[var(--gold)] italic not-italic">here</em>
                 </h2>
-                <div className="location-grid grid grid-cols-1 md:grid-cols-2 gap-20 items-start">
+                <div className="location-grid grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-20 items-start">
                     <div>
                         <p className="location-desc text-[1rem] text-[rgba(245,240,232,0.7)] leading-[1.85] font-light mb-8">
                             We're situated 15km outside Bonnievale, centrally placed between the Overberg, the Langeberg Meander and the Robertson Wine Valley. Nearby towns:
@@ -33,7 +33,7 @@ export default function Location() {
                         </div>
                     </div>
                     <div className="reveal">
-                        <div className="map-placeholder bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] h-[380px] flex flex-col items-center justify-center gap-4 text-[rgba(245,240,232,0.4)] text-sm tracking-wider uppercase">
+                        <div className="map-placeholder bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] h-[180px] sm:h-[380px] flex flex-col items-center justify-center gap-4 text-[rgba(245,240,232,0.4)] text-sm tracking-wider uppercase">
                             <div className="pin-icon text-4xl opacity-40">📍</div>
                             <div>Breede Escape · Bonnievale 6730</div>
                             <div className="text-xs opacity-50 mt-1">+27 82 895 7951</div>

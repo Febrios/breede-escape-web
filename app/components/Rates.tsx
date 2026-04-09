@@ -15,12 +15,12 @@ export default async function Rates() {
 
     return (
         <section className="rates py-32 bg-[var(--sand)]" id="rates">
-            <div className="section-inner max-w-[1200px] mx-auto px-[5vw]">
+            <div className="section-inner max-w-[1600px] mx-auto px-[3vw]">
                 <span className="section-tag text-[0.72rem] font-medium tracking-widest uppercase text-[var(--clay)] mb-4 block">Pricing</span>
                 <h2 className="section-title font-serif text-[clamp(2.2rem,5vw,3.8rem)] font-bold leading-tight text-[var(--forest)] mb-10">
                     Simple, honest <em className="text-[var(--clay)] italic not-italic">rates</em>
                 </h2>
-                <div className="rates-grid grid grid-cols-1 md:grid-cols-3 gap-6 mt-16">
+                <div className="rates-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-16">
                     {rates.map((rate: any, idx: number) => (
                         <div key={rate._id} className={`rate-card relative bg-[var(--cream)] p-10 overflow-hidden transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl ${idx === 1 ? 'featured' : ''}`}>
                             <div className="rate-label text-[0.72rem] tracking-widest uppercase text-[var(--clay)] font-medium mb-2">{rate.label}</div>

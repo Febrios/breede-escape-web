@@ -8,7 +8,7 @@ import GoogleReviews from "./GoogleReviews";
 export default function Reviews() {
     return (
         <section className="reviews py-32 bg-[var(--cream)]" id="reviews">
-            <div className="section-inner max-w-[1200px] mx-auto px-[5vw]">
+            <div className="section-inner max-w-[1600px] mx-auto px-[3vw]">
                 <span className="section-tag text-[0.72rem] font-medium tracking-widest uppercase text-[var(--clay)] mb-4 block">Guest Stories</span>
                 <h2 className="section-title font-serif text-[clamp(2.2rem,5vw,3.8rem)] font-bold leading-tight text-[var(--forest)] mb-10">
                     What our guests <em className="text-[var(--clay)] italic not-italic">say</em>

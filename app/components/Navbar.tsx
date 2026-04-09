@@ -24,10 +24,11 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  const [menuOpen, setMenuOpen] = React.useState(false);
   return (
     <nav
       id="mainNav"
-      className="fixed top-0 left-0 right-0 z-50 px-10 py-6 flex items-center justify-between transition-all duration-400"
+      className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-10 py-4 sm:py-6 flex items-center justify-between transition-all duration-400"
       style={{
         background: "rgba(15,26,15,0.7)",
         backdropFilter: "blur(8px)",
@@ -41,13 +42,25 @@ export default function Navbar() {
       >
         Breede <span style={{ color: "var(--gold)", fontStyle: "italic" }}>Escape</span>
       </a>
-      <ul className="nav-links flex gap-8 list-none">
-        <li><a href="#camps" className="text-[var(--cream)] text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors">Camps</a></li>
-        <li><a href="#rates" className="text-[var(--cream)] text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors">Rates</a></li>
-        <li><a href="#activities" className="text-[var(--cream)] text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors">Activities</a></li>
-        <li><a href="#location" className="text-[var(--cream)] text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors">Getting Here</a></li>
+      <button
+        className="sm:hidden ml-2 p-2 rounded focus:outline-none focus:ring-2 focus:ring-[var(--gold)]"
+        aria-label="Toggle menu"
+        onClick={() => setMenuOpen((open) => !open)}
+      >
+        <span className="block w-6 h-0.5 bg-[var(--gold)] mb-1"></span>
+        <span className="block w-6 h-0.5 bg-[var(--gold)] mb-1"></span>
+        <span className="block w-6 h-0.5 bg-[var(--gold)]"></span>
+      </button>
+      <ul
+        className={`nav-links ${menuOpen ? 'flex' : 'hidden'} sm:flex flex-col sm:flex-row gap-6 sm:gap-8 list-none absolute sm:static top-full left-0 w-full sm:w-auto bg-[rgba(15,26,15,0.97)] sm:bg-transparent px-4 sm:px-0 py-4 sm:py-0 transition-all duration-300`}
+        onClick={() => setMenuOpen(false)}
+      >
+        <li><a href="#camps" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Camps</a></li>
+        <li><a href="#rates" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Rates</a></li>
+        <li><a href="#activities" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Activities</a></li>
+        <li><a href="#location" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Getting Here</a></li>
         <li>
-          <a href="#booking" className="nav-cta bg-[var(--clay)] text-[var(--cream)] px-4 py-2 rounded-sm font-medium uppercase text-[0.85rem] no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors">Book Now</a>
+          <a href="#booking" className="nav-cta bg-[var(--clay)] text-[var(--cream)] px-4 py-2 rounded-sm font-medium uppercase text-base sm:text-[0.85rem] no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors block">Book Now</a>
         </li>
       </ul>
     </nav>

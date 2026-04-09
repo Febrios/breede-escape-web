@@ -12,7 +12,7 @@ export default async function Gallery() {
 
     return (
         <section className="gallery py-32 bg-[var(--moss)]" id="gallery">
-            <div className="section-inner max-w-[1200px] mx-auto px-[5vw]">
+            <div className="section-inner max-w-[1600px] mx-auto px-[3vw]">
                 <span className="section-tag text-[var(--sage)] text-[0.72rem] font-medium tracking-widest uppercase mb-4 block">Gallery</span>
                 <h2 className="section-title font-serif text-[clamp(2.2rem,5vw,3.8rem)] font-bold leading-tight text-[var(--cream)] mb-6">
                     The <em className="text-[var(--gold)] italic not-italic">view</em> from here

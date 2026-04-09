@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="bg-[var(--dark)] text-[rgba(245,240,232,0.4)] py-12 px-[5vw] flex flex-col md:flex-row items-center justify-between text-sm">
+        <footer className="bg-[var(--dark)] text-[rgba(245,240,232,0.4)] py-12 max-w-[1600px] mx-auto px-[3vw] flex flex-col md:flex-row items-center justify-between text-sm">
             <div className="footer-logo font-serif text-[var(--cream)] text-lg font-bold mb-4 md:mb-0">
                 Breede <span className="text-[var(--gold)] italic">Escape</span>
             </div>
