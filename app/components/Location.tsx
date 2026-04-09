@@ -33,11 +33,17 @@ export default function Location() {
                         </div>
                     </div>
                     <div className="reveal">
-                        <div className="map-placeholder bg-[rgba(255,255,255,0.06)] border border-[rgba(255,255,255,0.1)] h-[180px] sm:h-[380px] flex flex-col items-center justify-center gap-4 text-[rgba(245,240,232,0.4)] text-sm tracking-wider uppercase">
-                            <div className="pin-icon text-4xl opacity-40">📍</div>
-                            <div>Breede Escape · Bonnievale 6730</div>
-                            <div className="text-xs opacity-50 mt-1">+27 82 895 7951</div>
-                            <a href="https://maps.google.com/?q=Breede+Escape+Bonnievale" target="_blank" className="btn-primary bg-[var(--clay)] text-[var(--cream)] px-6 py-3 rounded-sm font-medium uppercase text-sm no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors mt-4">Open in Maps</a>
+                        <div className="google-map-embed border border-[rgba(255,255,255,0.1)] h-[180px] sm:h-[380px] rounded overflow-hidden">
+                            <iframe
+                                title="Breede Escape Location"
+                                src="https://www.google.com/maps?q=Breede+Escape+Bonnievale&output=embed"
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0 }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                            ></iframe>
                         </div>
                     </div>
                 </div>

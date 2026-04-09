@@ -17,7 +17,22 @@ export default async function Booking() {
                     <a href={`mailto:${siteSettings?.contactEmail || ''}`} className="btn-outline border border-[var(--clay)] text-[var(--clay)] px-5 py-3 sm:px-8 sm:py-4 rounded-sm font-medium uppercase text-sm sm:text-base no-underline hover:border-[var(--gold)] hover:text-[var(--gold)] transition-colors">✉ Send an Email</a>
                 </div>
                 <div className="booking-contact flex flex-col items-center gap-2 mt-6 sm:mt-8 text-[var(--forest)] text-xs tracking-widest uppercase px-2">
-                    <span>Phone &amp; WhatsApp</span>
+                    <span>Find us on</span>
+                    {siteSettings?.socialLinks && Array.isArray(siteSettings.socialLinks) && siteSettings.socialLinks.length > 0 && (
+                        <div className="flex flex-wrap justify-center gap-3 mt-1 mb-1">
+                            {siteSettings.socialLinks.map((link: any, idx: number) => (
+                                <a
+                                    key={idx}
+                                    href={link.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-[var(--clay)] underline hover:text-[var(--gold)] text-xs font-medium"
+                                >
+                                    {link.label}
+                                </a>
+                            ))}
+                        </div>
+                    )}
                     <a href={`tel:${siteSettings?.phone || ''}`} className="text-[var(--gold)] text-2xl font-serif font-bold no-underline">{siteSettings?.phone || ''}</a>
                     {siteSettings?.rules && Array.isArray(siteSettings.rules) && siteSettings.rules.length > 0 && (
                         <span className="text-[0.72rem] mt-2 text-center text-[var(--clay)]">
