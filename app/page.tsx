@@ -1,6 +1,3 @@
-
-import { fetchRooms } from "../lib/sanity";
-import Image from "next/image";
 import Hero from "./components/Hero";
 import About from "./components/About";
 import NoticeBar from "./components/NoticeBar";
@@ -14,8 +11,6 @@ import Booking from "./components/Booking";
 import Footer from "./components/Footer";
 
 export default async function Home() {
-  const rooms = await fetchRooms();
-
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-[var(--cream)] font-sans">
       <Hero />

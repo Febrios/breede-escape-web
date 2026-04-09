@@ -6,7 +6,19 @@ export default function Navbar() {
   useEffect(() => {
     const nav = document.getElementById("mainNav");
     const onScroll = () => {
-      if (nav) nav.classList.toggle("scrolled", window.scrollY > 80);
+      if (nav) {
+        if (window.scrollY > 80) {
+          nav.style.background = "rgba(15,26,15,0.92)";
+          nav.style.backdropFilter = "blur(12px)";
+          (nav.style as any).WebkitBackdropFilter = "blur(12px)";
+          nav.style.boxShadow = "0 2px 16px 0 rgba(0,0,0,0.18)";
+        } else {
+          nav.style.background = "rgba(15,26,15,0.7)";
+          nav.style.backdropFilter = "blur(8px)";
+          (nav.style as any).WebkitBackdropFilter = "blur(8px)";
+          nav.style.boxShadow = "0 2px 16px 0 rgba(0,0,0,0.10)";
+        }
+      }
     };
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -17,8 +29,9 @@ export default function Navbar() {
       id="mainNav"
       className="fixed top-0 left-0 right-0 z-50 px-10 py-6 flex items-center justify-between transition-all duration-400"
       style={{
-        background: "rgba(15,26,15,0.0)",
-        backdropFilter: "none",
+        background: "rgba(15,26,15,0.7)",
+        backdropFilter: "blur(8px)",
+        boxShadow: "0 2px 16px 0 rgba(0,0,0,0.10)"
       }}
     >
       <a

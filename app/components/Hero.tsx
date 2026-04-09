@@ -20,24 +20,6 @@ export default function Hero() {
         <a href="#booking" className="btn-primary bg-[var(--clay)] text-[var(--cream)] px-8 py-4 text-[0.9rem] font-medium uppercase tracking-wide rounded-sm no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors">Reserve Your Camp</a>
         <a href="#camps" className="btn-outline border border-[rgba(245,240,232,0.5)] text-[var(--cream)] px-8 py-4 text-[0.9rem] font-medium uppercase tracking-wide rounded-sm no-underline hover:border-[var(--gold)] hover:text-[var(--gold)] transition-colors">Explore Camps</a>
       </div>
-      <div className="hero-stats absolute bottom-10 left-[5vw] flex gap-10" style={{ opacity: 1, animation: 'fadeUp 0.9s 1.1s forwards' }}>
-        <div className="stat text-center">
-          <div className="stat-num font-serif text-3xl font-bold text-[var(--gold)] leading-none">30+</div>
-          <div className="stat-label text-xs text-[rgba(245,240,232,0.6)] uppercase tracking-wider mt-1">Max Guests</div>
-        </div>
-        <div className="stat text-center">
-          <div className="stat-num font-serif text-3xl font-bold text-[var(--gold)] leading-none">4.8★</div>
-          <div className="stat-label text-xs text-[rgba(245,240,232,0.6)] uppercase tracking-wider mt-1">Google Rating</div>
-        </div>
-        <div className="stat text-center">
-          <div className="stat-num font-serif text-3xl font-bold text-[var(--gold)] leading-none">30yr</div>
-          <div className="stat-label text-xs text-[rgba(245,240,232,0.6)] uppercase tracking-wider mt-1">Family Farm</div>
-        </div>
-      </div>
-      <div className="hero-scroll absolute bottom-10 right-[5vw] flex flex-col items-center gap-2 text-[rgba(245,240,232,0.5)] text-xs uppercase tracking-widest" style={{ opacity: 1, animation: 'fadeIn 1s 1.5s forwards' }}>
-        Scroll
-        <span className="block w-px h-16 bg-gradient-to-b from-[rgba(245,240,232,0.5)] to-transparent animate-pulse"></span>
-      </div>
     </header>
   );
 }
