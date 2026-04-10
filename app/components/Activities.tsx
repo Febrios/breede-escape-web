@@ -15,7 +15,7 @@ export default async function Activities() {
                 </h2>
                 <div className="activities-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 border-b border-[rgba(26,46,26,0.1)] mt-10 sm:mt-16 gap-4 sm:gap-0">
                     {activities.slice(0, 4).map((act: any, idx: number) => (
-                        <div key={act._id} className="activity p-5 sm:p-10 text-center transition-colors duration-300 hover:bg-[var(--forest)] group border-r border-[rgba(26,46,26,0.1)] last:border-r-0">
+                        <div key={act._id || act.name || idx} className="activity p-5 sm:p-10 text-center transition-colors duration-300 hover:bg-[var(--forest)] group border-r border-[rgba(26,46,26,0.1)] last:border-r-0">
                             <span className="activity-icon text-4xl mb-4 block transition-colors group-hover:text-[var(--gold)]">{act.icon}</span>
                             <div className="activity-name font-serif text-xl font-bold text-[var(--forest)] mb-2 transition-colors group-hover:text-[var(--cream)]">{act.name}</div>
                             <p className="activity-desc text-[0.85rem] leading-[1.65] text-[#5a6a5a] font-light transition-colors group-hover:text-[rgba(245,240,232,0.65)]">{act.description}</p>
@@ -24,7 +24,7 @@ export default async function Activities() {
                 </div>
                 <div className="activities-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 border-b border-[rgba(26,46,26,0.1)] gap-4 sm:gap-0">
                     {activities.slice(4, 8).map((act: any, idx: number) => (
-                        <div key={act._id} className="activity p-5 sm:p-10 text-center transition-colors duration-300 hover:bg-[var(--forest)] group border-r border-[rgba(26,46,26,0.1)] last:border-r-0">
+                        <div key={act._id || act.name || idx} className="activity p-5 sm:p-10 text-center transition-colors duration-300 hover:bg-[var(--forest)] group border-r border-[rgba(26,46,26,0.1)] last:border-r-0">
                             <span className="activity-icon text-4xl mb-4 block transition-colors group-hover:text-[var(--gold)]">{act.icon}</span>
                             <div className="activity-name font-serif text-xl font-bold text-[var(--forest)] mb-2 transition-colors group-hover:text-[var(--cream)]">{act.name}</div>
                             <p className="activity-desc text-[0.85rem] leading-[1.65] text-[#5a6a5a] font-light transition-colors group-hover:text-[rgba(245,240,232,0.65)]">{act.description}</p>
