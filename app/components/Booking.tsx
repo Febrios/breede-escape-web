@@ -11,7 +11,7 @@ export default async function Booking() {
                     Ready to <em className="text-[var(--clay)] italic not-italic block">escape?</em>
                 </h2>
                 <p className="text-[1.05rem] leading-[1.85] text-[#3a4a3a] font-light mb-5 max-w-[95vw] sm:max-w-[480px] mx-auto">
-                    Contact us to check availability and confirm your dates. A 50% non-refundable deposit secures your camp.
+                    {general?.contactUsContent}
                 </p>
                 <div className="flex gap-2 sm:gap-4 flex-wrap justify-center mb-8 sm:mb-10">
                     <a href={`tel:${general?.phone || ''}`} className="btn-primary bg-[var(--clay)] text-[var(--cream)] px-5 py-3 sm:px-8 sm:py-4 rounded-sm font-medium uppercase text-sm sm:text-base no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors">📞 Call Us Now</a>
