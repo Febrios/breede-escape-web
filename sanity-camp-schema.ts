@@ -13,5 +13,6 @@ export default {
         { name: 'gallery', title: 'Gallery Images', type: 'array', of: [{ type: 'image' }] },
         { name: 'order', title: 'Order', type: 'number' },
         { name: 'link', title: 'Link', type: 'string' },
+        { name: 'googleCalendarId', title: 'Google Calendar ID', type: 'string', description: 'The Google Calendar ID for this camp (e.g. your-camp@gmail.com or calendar-id@group.calendar.google.com)' },
     ],
 };

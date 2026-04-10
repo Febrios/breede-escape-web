@@ -1,5 +1,6 @@
 import Image from "next/image";
 import CampSlider from "./CampSlider";
+import CampAvailability from "./CampAvailability";
 import { sanityClient, urlFor } from "../../lib/sanity";
 
 export default async function Camps() {
@@ -15,7 +16,8 @@ export default async function Camps() {
                 ...,
                 asset->
             },
-            link
+            link,
+            googleCalendarId
         }`);
 
     return (
@@ -45,6 +47,9 @@ export default async function Camps() {
                                         <span key={i} className="camp-feat text-[0.72rem] tracking-wider uppercase border border-[rgba(201,168,76,0.35)] text-[var(--gold)] px-3 py-1">{feat}</span>
                                     ))}
                                 </div>
+                                {camp.googleCalendarId && (
+                                    <CampAvailability campName={camp.name} calendarId={camp.googleCalendarId} />
+                                )}
                                 <a href={camp.link || "#rates"} className="camp-link inline-flex items-center gap-2 text-[var(--cream)] text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors">
                                     View Rates <span>→</span>
                                 </a>
