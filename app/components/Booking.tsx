@@ -1,7 +1,8 @@
-import { fetchSiteSettings } from "../../lib/fetchSiteSettings";
+
+import { fetchGeneral } from "../../lib/fetchGeneral";
 
 export default async function Booking() {
-    const siteSettings = await fetchSiteSettings();
+    const general = await fetchGeneral();
     return (
         <section className="booking py-20 sm:py-32 bg-[var(--cream)] text-center text-[var(--forest)]" id="booking">
             <div className="section-inner flex flex-col items-center max-w-[1600px] mx-auto px-[3vw]">
@@ -13,14 +14,14 @@ export default async function Booking() {
                     Contact us to check availability and confirm your dates. A 50% non-refundable deposit secures your camp.
                 </p>
                 <div className="flex gap-2 sm:gap-4 flex-wrap justify-center mb-8 sm:mb-10">
-                    <a href={`tel:${siteSettings?.phone || ''}`} className="btn-primary bg-[var(--clay)] text-[var(--cream)] px-5 py-3 sm:px-8 sm:py-4 rounded-sm font-medium uppercase text-sm sm:text-base no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors">📞 Call Us Now</a>
-                    <a href={`mailto:${siteSettings?.contactEmail || ''}`} className="btn-outline border border-[var(--clay)] text-[var(--clay)] px-5 py-3 sm:px-8 sm:py-4 rounded-sm font-medium uppercase text-sm sm:text-base no-underline hover:border-[var(--gold)] hover:text-[var(--gold)] transition-colors">✉ Send an Email</a>
+                    <a href={`tel:${general?.phone || ''}`} className="btn-primary bg-[var(--clay)] text-[var(--cream)] px-5 py-3 sm:px-8 sm:py-4 rounded-sm font-medium uppercase text-sm sm:text-base no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors">📞 Call Us Now</a>
+                    <a href={`mailto:${general?.email || ''}`} className="btn-outline border border-[var(--clay)] text-[var(--clay)] px-5 py-3 sm:px-8 sm:py-4 rounded-sm font-medium uppercase text-sm sm:text-base no-underline hover:border-[var(--gold)] hover:text-[var(--gold)] transition-colors">✉ Send an Email</a>
                 </div>
                 <div className="booking-contact flex flex-col items-center gap-2 mt-6 sm:mt-8 text-[var(--forest)] text-xs tracking-widest uppercase px-2">
                     <span>Find us on</span>
-                    {siteSettings?.socialLinks && Array.isArray(siteSettings.socialLinks) && siteSettings.socialLinks.length > 0 && (
+                    {general?.socials && Array.isArray(general.socials) && general.socials.length > 0 && (
                         <div className="flex flex-wrap justify-center gap-3 mt-1 mb-1">
-                            {siteSettings.socialLinks.map((link: any, idx: number) => (
+                            {general.socials.map((link: any, idx: number) => (
                                 <a
                                     key={idx}
                                     href={link.url}
@@ -33,10 +34,10 @@ export default async function Booking() {
                             ))}
                         </div>
                     )}
-                    <a href={`tel:${siteSettings?.phone || ''}`} className="text-[var(--gold)] text-2xl font-serif font-bold no-underline">{siteSettings?.phone || ''}</a>
-                    {siteSettings?.rules && Array.isArray(siteSettings.rules) && siteSettings.rules.length > 0 && (
+                    <a href={`tel:${general?.phone || ''}`} className="text-[var(--gold)] text-2xl font-serif font-bold no-underline">{general?.phone || ''}</a>
+                    {general?.rules && Array.isArray(general.rules) && general.rules.length > 0 && (
                         <span className="text-[0.72rem] mt-2 text-center text-[var(--clay)]">
-                            {siteSettings.rules.join(' · ')}
+                            {general.rules.join(' · ')}
                         </span>
                     )}
                 </div>

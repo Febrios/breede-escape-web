@@ -1,9 +1,9 @@
 import Image from "next/image";
-import { fetchSiteSettings } from "../../lib/fetchSiteSettings";
+import { fetchStory } from "../../lib/fetchStory";
 import { urlFor } from "../../lib/sanity";
 
 export default async function About() {
-    const siteSettings = await fetchSiteSettings();
+    const story = await fetchStory();
     return (
         <section className="about py-20 sm:py-32 bg-[var(--cream)]" id="about">
             <div className="section-inner max-w-[1600px] mx-auto px-[3vw]">
@@ -14,16 +14,16 @@ export default async function About() {
                             A place where<br />
                             <em className="text-[var(--clay)] italic not-italic">time slows down</em>
                         </h2>
-                        {siteSettings?.aboutText && (
+                        {story?.content && (
                             <p className="text-[1.05rem] leading-[1.85] text-[#3a4a3a] font-light mb-5 whitespace-pre-line">
-                                {siteSettings.aboutText}
+                                {story.content}
                             </p>
                         )}
                     </div>
                     <div className="about-image-wrap relative">
                         <Image
                             className="about-image w-full h-[48vw] min-h-[180px] max-h-[320px] sm:h-[500px] object-cover saturate-[0.9]"
-                            src={siteSettings?.aboutImage ? urlFor(siteSettings.aboutImage).width(900).height(600).quality(100).url() : "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&q=80"}
+                            src={story?.image ? urlFor(story.image).width(900).height(600).quality(100).url() : "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=900&q=80"}
                             alt="River camp at dusk"
                             width={600}
                             height={500}

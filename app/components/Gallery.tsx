@@ -1,12 +1,13 @@
 
-import { fetchSiteSettings } from "../../lib/fetchSiteSettings";
+import { fetchGallery } from "../../lib/fetchGallery";
 import Image from "next/image";
 
 
+
 export default async function Gallery() {
-    const siteSettings = await fetchSiteSettings();
-    const galleryContent = siteSettings?.galleryContent || "Thatched huts, wide river skies, old trees throwing afternoon shade, and campfires that outlast the stars.";
-    const images = siteSettings?.galleryImages || [];
+    const gallerySettings = await fetchGallery();
+    const galleryContent = gallerySettings?.content;
+    const images = gallerySettings?.images || [];
 
     return (
         <section className="gallery py-32 bg-[var(--moss)]" id="gallery">

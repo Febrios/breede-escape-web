@@ -1,11 +1,13 @@
-import { fetchSiteSettings } from "../../lib/fetchSiteSettings";
+
+import { fetchHero } from "../../lib/fetchHero";
 import { urlFor } from "../../lib/sanity";
 
+
 export default async function Hero() {
-  // Fetch hero content from Sanity site settings
-  const siteSettings = await fetchSiteSettings();
-  const heroContent = siteSettings?.heroContent || "Escape to the banks of the Breede River — a working farm, thatched huts, and wide-open skies just 15km outside Bonnievale.";
-  const heroBgUrl = siteSettings?.heroBackground ? urlFor(siteSettings.heroBackground).width(1600).quality(100).url() : "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80";
+  // Fetch hero content from Sanity heroSettings
+  const heroSettings = await fetchHero();
+  const heroContent = heroSettings?.content;
+  const heroBgUrl = heroSettings?.backgroundImage ? urlFor(heroSettings.backgroundImage).width(1600).quality(100).url() : "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80";
 
   return (
     <header

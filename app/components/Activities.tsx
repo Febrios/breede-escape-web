@@ -1,13 +1,10 @@
-import { sanityClient } from "../../lib/sanity";
+
+import { fetchActivities } from "../../lib/fetchActivities";
+
 
 export default async function Activities() {
-    // Fetch activities from Sanity
-    const activities = await sanityClient.fetch(`*[_type == "activity"]|order(order asc){
-    _id,
-    name,
-    icon,
-    description
-  }`);
+    // Fetch activities from generalSettings.activities
+    const activities = await fetchActivities();
 
     return (
         <section className="activities py-20 sm:py-32 bg-[var(--cream)]" id="activities">
