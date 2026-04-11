@@ -1,17 +1,15 @@
 import Image from "next/image";
 import { fetchStory } from "../../lib/fetchStory";
-import { fetchHero } from "../../lib/fetchHero";
 import { urlFor } from "../../lib/sanity";
 
 export default async function About() {
     const story = await fetchStory();
-    const heroSettings = await fetchHero();
     type Badge = {
         icon?: any;
         url?: string;
         title?: string;
     };
-    const badges: Badge[] = heroSettings?.badges || [];
+    const badges: Badge[] = story?.badges || [];
     return (
         <section className="about py-20 sm:py-32 bg-[var(--cream)]" id="about">
             <div className="section-inner max-w-[1600px] mx-auto px-[3vw]">
