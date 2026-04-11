@@ -23,7 +23,6 @@ export default {
                             title: 'Icon',
                             type: 'image',
                             options: { hotspot: true },
-                            validation: Rule => Rule.required(),
                         },
                         {
                             name: 'url',
