@@ -1,4 +1,3 @@
-import Image from "next/image";
 import CampSlider from "./CampSlider";
 import CampAvailability from "./CampAvailability";
 import { sanityClient, urlFor } from "../../lib/sanity";
@@ -11,7 +10,6 @@ export default async function Camps() {
             tagline,
             description,
             features,
-            image,
             gallery[]{
                 ...,
                 asset->
