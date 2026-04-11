@@ -21,7 +21,7 @@ function createJWT({ client_email, private_key, scope }: ServiceAccountJWTParams
         exp,
         iat,
     };
-    function base64url(obj) {
+    function base64url(obj: object) {
         return Buffer.from(JSON.stringify(obj)).toString("base64url");
     }
     const encodedHeader = base64url(header);
