@@ -1,9 +1,17 @@
 import Image from "next/image";
 import { fetchStory } from "../../lib/fetchStory";
+import { fetchHero } from "../../lib/fetchHero";
 import { urlFor } from "../../lib/sanity";
 
 export default async function About() {
     const story = await fetchStory();
+    const heroSettings = await fetchHero();
+    type Badge = {
+        icon?: any;
+        url?: string;
+        title?: string;
+    };
+    const badges: Badge[] = heroSettings?.badges || [];
     return (
         <section className="about py-20 sm:py-32 bg-[var(--cream)]" id="about">
             <div className="section-inner max-w-[1600px] mx-auto px-[3vw]">
@@ -18,6 +26,29 @@ export default async function About() {
                             <p className="text-[1.05rem] leading-[1.85] text-[#3a4a3a] font-light mb-5 whitespace-pre-line">
                                 {story.content}
                             </p>
+                        )}
+                        {/* Badges below content */}
+                        {badges.length > 0 && (
+                            <div className="flex justify-center gap-6 mt-8">
+                                {badges.map((badge: Badge, idx: number) => {
+                                    const iconUrl = badge.icon ? urlFor(badge.icon).width(100).height(100).quality(80).url() : null;
+                                    const badgeImg = iconUrl ? (
+                                        <img
+                                            key={iconUrl}
+                                            src={iconUrl}
+                                            alt={badge.title || `Badge ${idx + 1}`}
+                                            className="rounded-full border-2 border-[var(--gold)] bg-white"
+                                            style={{ objectFit: 'cover' }}
+                                        />
+                                    ) : null;
+                                    if (!badgeImg) return null;
+                                    return badge.url ? (
+                                        <a href={badge.url} target="_blank" rel="noopener noreferrer" key={badge.url + idx} title={badge.title || undefined}>
+                                            {badgeImg}
+                                        </a>
+                                    ) : badgeImg;
+                                })}
+                            </div>
                         )}
                     </div>
                     <div className="about-image-wrap relative">

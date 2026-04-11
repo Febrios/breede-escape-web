@@ -51,18 +51,20 @@ export default function Navbar() {
         <span className="block w-6 h-0.5 bg-[var(--gold)] mb-1"></span>
         <span className="block w-6 h-0.5 bg-[var(--gold)]"></span>
       </button>
-      <ul
-        className={`nav-links ${menuOpen ? 'flex' : 'hidden'} sm:flex flex-col sm:flex-row gap-6 sm:gap-8 list-none absolute sm:static top-full left-0 w-full sm:w-auto bg-[rgba(15,26,15,0.97)] sm:bg-transparent px-4 sm:px-0 py-4 sm:py-0 transition-all duration-300`}
-        onClick={() => setMenuOpen(false)}
-      >
-        <li><a href="#camps" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Camps</a></li>
-        <li><a href="#rates" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Rates</a></li>
-        <li><a href="#activities" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Activities</a></li>
-        <li><a href="#location" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Getting Here</a></li>
-        <li>
-          <a href="#booking" className="nav-cta bg-[var(--clay)] text-[var(--cream)] px-4 py-2 rounded-sm font-medium uppercase text-base sm:text-[0.85rem] no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors block">Book Now</a>
-        </li>
-      </ul>
+      <div className="flex items-center gap-2 sm:gap-8">
+        <ul
+          className={`nav-links ${menuOpen ? 'flex' : 'hidden'} sm:flex flex-col sm:flex-row gap-6 sm:gap-8 list-none absolute sm:static top-full left-0 w-full sm:w-auto bg-[rgba(15,26,15,0.97)] sm:bg-transparent px-4 sm:px-0 py-4 sm:py-0 transition-all duration-300`}
+          onClick={() => setMenuOpen(false)}
+        >
+          <li><a href="#camps" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Camps</a></li>
+          <li><a href="#rates" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Rates</a></li>
+          <li><a href="#activities" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Activities</a></li>
+          <li><a href="#location" className="text-[var(--cream)] text-base sm:text-[0.85rem] font-medium uppercase tracking-wider no-underline hover:text-[var(--gold)] transition-colors block py-2 sm:py-0">Getting Here</a></li>
+        </ul>
+        <a href="#booking" className="hidden sm:inline-block nav-cta bg-[var(--clay)] text-[var(--cream)] px-4 py-2 rounded-sm font-medium uppercase text-base sm:text-[0.85rem] no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors ml-2">Book Now</a>
+      </div>
+      {/* Mobile Book Now button */}
+      <a href="#booking" className="sm:hidden nav-cta bg-[var(--clay)] text-[var(--cream)] px-4 py-2 rounded-sm font-medium uppercase text-base no-underline hover:bg-[var(--gold)] hover:text-[var(--dark)] transition-colors ml-2 mt-2 block">Book Now</a>
     </nav>
   );
 }

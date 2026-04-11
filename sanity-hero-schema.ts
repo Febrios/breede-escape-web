@@ -10,5 +10,35 @@ export default {
             type: 'image',
             options: { hotspot: true },
         },
+        {
+            name: 'badges',
+            title: 'Badges',
+            type: 'array',
+            of: [
+                {
+                    type: 'object',
+                    fields: [
+                        {
+                            name: 'icon',
+                            title: 'Icon',
+                            type: 'image',
+                            options: { hotspot: true },
+                            validation: Rule => Rule.required(),
+                        },
+                        {
+                            name: 'url',
+                            title: 'URL',
+                            type: 'url',
+                        },
+                        {
+                            name: 'title',
+                            title: 'Title',
+                            type: 'string',
+                        },
+                    ],
+                },
+            ],
+            description: 'List of badges to display in the hero section. Each badge must have an icon, and can optionally have a URL and title.',
+        },
     ],
 };
