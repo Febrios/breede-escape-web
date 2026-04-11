@@ -3,8 +3,8 @@ import CampAvailability from "./CampAvailability";
 import { sanityClient, urlFor } from "../../lib/sanity";
 
 export default async function Camps() {
-    // Fetch camps from Sanity
-    const camps = await sanityClient.fetch(`*[_type == "camp"]|order(order asc){
+    // Fetch only published camps from Sanity
+    const camps = await sanityClient.fetch(`*[_type == "camp" && !(_id in path('drafts.**'))]|order(order asc){
             _id,
             name,
             tagline,
