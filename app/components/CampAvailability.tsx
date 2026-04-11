@@ -22,6 +22,7 @@ const CampAvailability: React.FC<CampAvailabilityProps> = ({ campName, calendarI
     const [events, setEvents] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [showMonthPicker, setShowMonthPicker] = useState(false);
 
     useEffect(() => {
         async function fetchEvents() {
@@ -90,13 +91,79 @@ const CampAvailability: React.FC<CampAvailabilityProps> = ({ campName, calendarI
         }
     }
 
+    // Month/year picker logic
+    const months = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const currentYear = today.getFullYear();
+    const yearOptions = [];
+    for (let y = currentYear - 2; y <= currentYear + 2; y++) yearOptions.push(y);
+
+    function handleMonthYearChange(e: React.FormEvent) {
+        e.preventDefault();
+        const form = e.target as HTMLFormElement;
+        const m = parseInt((form.elements.namedItem("month") as HTMLSelectElement).value, 10);
+        const y = parseInt((form.elements.namedItem("year") as HTMLSelectElement).value, 10);
+        setMonth(m);
+        setYear(y);
+        setShowMonthPicker(false);
+    }
+
     return (
         <section className="camp-availability my-8">
-            <h3 className="text-xl font-bold mb-4 text-[var(--forest)]">{campName} Availability</h3>
-            <div className="flex items-center justify-between mb-2 gap-2">
-                <button onClick={prevMonth} className="rounded-full p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Previous month">←</button>
-                <div className="font-semibold text-lg">{new Date(year, month).toLocaleString("default", { month: "long", year: "numeric" })}</div>
-                <button onClick={nextMonth} className="rounded-full p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800" aria-label="Next month">→</button>
+            <h3 className="text-xl font-bold mb-4 text-zinc-400 dark:text-zinc-400">{campName} Availability</h3>
+            <div className="flex items-center justify-between mb-2 gap-2 relative">
+                <button
+                    onClick={prevMonth}
+                    className="rounded-full p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800"
+                    aria-label="Previous month"
+                >
+                    ←
+                </button>
+                <button
+                    type="button"
+                    className="font-semibold text-lg px-2 py-1 rounded text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800 focus:outline-none"
+                    onClick={() => setShowMonthPicker((v) => !v)}
+                    aria-label="Pick month and year"
+                >
+                    {new Date(year, month).toLocaleString("default", { month: "long", year: "numeric" })}
+                </button>
+                {showMonthPicker && (
+                    <form
+                        className="absolute left-1/2 -translate-x-1/2 top-10 z-10 bg-white dark:bg-zinc-900 border rounded shadow p-3 flex gap-2 items-center text-zinc-400 dark:text-zinc-400"
+                        style={{ minWidth: 220 }}
+                        onSubmit={handleMonthYearChange}
+                    >
+                        <select
+                            name="month"
+                            defaultValue={month}
+                            className="border rounded px-2 py-1 bg-inherit text-zinc-400 dark:text-zinc-400"
+                        >
+                            {months.map((m, i) => (
+                                <option value={i} key={m}>{m}</option>
+                            ))}
+                        </select>
+                        <select
+                            name="year"
+                            defaultValue={year}
+                            className="border rounded px-2 py-1 bg-inherit text-zinc-400 dark:text-zinc-400"
+                        >
+                            {yearOptions.map((y) => (
+                                <option value={y} key={y}>{y}</option>
+                            ))}
+                        </select>
+                        <button type="submit" className="ml-2 px-2 py-1 rounded bg-green-600 text-white hover:bg-green-700">Go</button>
+                        <button type="button" className="ml-1 px-2 py-1 rounded bg-zinc-200 dark:bg-zinc-800" onClick={() => setShowMonthPicker(false)}>✕</button>
+                    </form>
+                )}
+                <button
+                    onClick={nextMonth}
+                    className="rounded-full p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 dark:text-zinc-400 dark:hover:text-zinc-200 dark:hover:bg-zinc-800"
+                    aria-label="Next month"
+                >
+                    →
+                </button>
             </div>
             <div className="w-full max-w-md mx-auto bg-white dark:bg-zinc-900 rounded-lg shadow p-4 border">
                 <div className="grid grid-cols-7 gap-1 mb-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400">
@@ -122,7 +189,7 @@ const CampAvailability: React.FC<CampAvailabilityProps> = ({ campName, calendarI
                 {error && <div className="text-center text-xs mt-2 text-red-500">{error}</div>}
                 {!loading && !error && events.length === 0 && <div className="text-center text-xs mt-2 text-zinc-400">No bookings this month.</div>}
             </div>
-            <div className="flex gap-4 mt-4 justify-center text-xs">
+            <div className="flex gap-4 mt-4 justify-center text-xs text-zinc-400 dark:text-zinc-400">
                 <div className="flex items-center gap-2"><span className="inline-block w-4 h-4 rounded bg-green-200 dark:bg-green-900"></span> Available</div>
                 <div className="flex items-center gap-2"><span className="inline-block w-4 h-4 rounded bg-red-200 dark:bg-red-900"></span> Fully booked</div>
             </div>
