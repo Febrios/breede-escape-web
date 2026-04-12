@@ -1,17 +1,8 @@
-import { sanityClient } from "../../lib/sanity";
+import { fetchRates } from "../../lib/fetchRates";
 
-export default async function Rates() {
-    // Fetch only published rates from Sanity, including camp reference
-    const rates = await sanityClient.fetch(`*[_type == "rate" && !(_id in path('drafts.**'))]|order(order asc){
-        _id,
-        label,
-        name,
-        price,
-        unit,
-        includes,
-        note,
-        "campName": camp->name
-    }`);
+export default async function Rates({ draftMode = false }: { draftMode?: boolean } = {}) {
+    // Fetch rates from Sanity (drafts if enabled), including camp reference
+    const rates = await fetchRates(draftMode);
 
     return (
         <section className="rates py-32 bg-[var(--sand)]" id="rates">

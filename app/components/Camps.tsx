@@ -1,22 +1,13 @@
 import CampSlider from "./CampSlider";
 import CampAvailability from "./CampAvailability";
-import { sanityClient, urlFor } from "../../lib/sanity";
 
-export default async function Camps() {
-    // Fetch only published camps from Sanity
-    const camps = await sanityClient.fetch(`*[_type == "camp" && !(_id in path('drafts.**'))]|order(order asc){
-            _id,
-            name,
-            tagline,
-            description,
-            features,
-            gallery[]{
-                ...,
-                asset->
-            },
-            link,
-            googleCalendarId
-        }`);
+
+import { urlFor } from "../../lib/sanity";
+import { fetchCamps } from "../../lib/fetchCamps";
+
+export default async function Camps({ draftMode = false }: { draftMode?: boolean } = {}) {
+    // Fetch camps from Sanity (drafts if enabled)
+    const camps = await fetchCamps(draftMode);
 
     return (
         <section className="camps py-20 sm:py-32 bg-[var(--forest)]" id="camps">

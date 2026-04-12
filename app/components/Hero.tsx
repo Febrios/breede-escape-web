@@ -3,9 +3,9 @@ import { fetchHero } from "../../lib/fetchHero";
 import { urlFor } from "../../lib/sanity";
 
 
-export default async function Hero() {
+export default async function Hero({ draftMode = false }: { draftMode?: boolean } = {}) {
   // Fetch hero content from Sanity heroSettings
-  const heroSettings = await fetchHero();
+  const heroSettings = await fetchHero(draftMode);
   const heroContent = heroSettings?.content;
   const heroBgUrl = heroSettings?.backgroundImage ? urlFor(heroSettings.backgroundImage).width(1600).quality(100).url() : "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1600&q=80";
 

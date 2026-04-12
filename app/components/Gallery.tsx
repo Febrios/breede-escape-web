@@ -8,8 +8,8 @@ function GalleryClientWrapper(props: { galleryContent: string; images: any[] }) 
     return <GalleryClient {...props} />;
 }
 
-export default async function Gallery() {
-    const gallerySettings = await fetchGallery();
+export default async function Gallery({ draftMode = false }: { draftMode?: boolean } = {}) {
+    const gallerySettings = await fetchGallery(draftMode);
     const galleryContent = gallerySettings?.content || "";
     const images = gallerySettings?.images || [];
 

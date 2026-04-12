@@ -2,9 +2,9 @@
 import { fetchActivities } from "../../lib/fetchActivities";
 
 
-export default async function Activities() {
-    // Fetch activities from generalSettings.activities
-    const activities = await fetchActivities();
+export default async function Activities({ draftMode = false }: { draftMode?: boolean } = {}) {
+    // Fetch activities from generalSettings.activities (drafts if enabled)
+    const activities = await fetchActivities(draftMode);
 
     return (
         <section className="activities py-20 sm:py-32 bg-[var(--cream)]" id="activities">

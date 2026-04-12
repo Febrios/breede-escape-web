@@ -1,8 +1,8 @@
 
 import { fetchGeneral } from "../../lib/fetchGeneral";
 
-export default async function Booking() {
-    const general = await fetchGeneral();
+export default async function Booking({ draftMode = false }: { draftMode?: boolean } = {}) {
+    const general = await fetchGeneral(draftMode);
     return (
         <section className="booking py-20 sm:py-32 bg-[var(--cream)] text-center text-[var(--forest)]" id="booking">
             <div className="section-inner flex flex-col items-center max-w-[1600px] mx-auto px-[3vw]">

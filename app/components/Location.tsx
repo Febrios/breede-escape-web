@@ -1,8 +1,8 @@
 
 import { fetchLocation } from "../../lib/fetchLocation";
 
-export default async function Location() {
-    const location = await fetchLocation();
+export default async function Location({ draftMode = false }: { draftMode?: boolean } = {}) {
+    const location = await fetchLocation(draftMode);
     const towns = location?.towns || [];
     const directions = location?.directions || [];
     return (

@@ -2,8 +2,8 @@ import Image from "next/image";
 import { fetchStory } from "../../lib/fetchStory";
 import { urlFor } from "../../lib/sanity";
 
-export default async function About() {
-    const story = await fetchStory();
+export default async function About({ draftMode = false }: { draftMode?: boolean } = {}) {
+    const story = await fetchStory(draftMode);
     type Badge = {
         icon?: any;
         url?: string;
