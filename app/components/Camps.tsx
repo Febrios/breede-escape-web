@@ -21,10 +21,14 @@ export default async function Camps({ draftMode = false }: { draftMode?: boolean
                         <div key={camp._id} className="camp-card flex flex-col gap-4 bg-[rgba(15,26,15,0.92)] rounded-lg shadow-lg p-0 sm:p-0">
                             {camp.gallery && camp.gallery.length > 0 && (
                                 <CampSlider
-                                    images={camp.gallery.map((img: any, i: number) => ({
-                                        url: img.asset ? urlFor(img.asset).width(400).height(250).quality(100).url() : "https://via.placeholder.com/900x560",
-                                        alt: camp.name + ' photo ' + (i + 1),
-                                    }))}
+                                    images={camp.gallery
+                                        .map((img: any, i: number) => {
+                                            const url = img.asset ? urlFor(img.asset).width(400).height(250).quality(100).url() : null;
+                                            return url
+                                                ? { url, alt: camp.name + ' photo ' + (i + 1) }
+                                                : null;
+                                        })
+                                        .filter((img: any) => img && img.url)}
                                 />
                             )}
                             <div className="camp-overlay bg-gradient-to-t from-[rgba(15,26,15,0.92)] via-[rgba(15,26,15,0.3)] to-transparent p-4 sm:p-10 flex flex-col justify-end">
