@@ -23,7 +23,7 @@ export default async function Camps({ draftMode = false }: { draftMode?: boolean
                                 <CampSlider
                                     images={camp.gallery
                                         .map((img: any, i: number) => {
-                                            const url = img.asset ? urlFor(img.asset).width(400).height(250).quality(100).url() : null;
+                                            const url = img.asset ? urlFor(img.asset).width(1200).height(800).quality(100).url() : null;
                                             return url
                                                 ? { url, alt: camp.name + ' photo ' + (i + 1) }
                                                 : null;
