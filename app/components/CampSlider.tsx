@@ -33,12 +33,10 @@ export default function CampSlider({ images, interval = 3500 }: CampSliderProps)
         <>
             <div className="relative w-full h-[200px] sm:h-[250px] overflow-hidden rounded-md">
                 {validImages.map((img, i) => (
-                    <Image
+                    <img
                         key={img.url}
                         src={img.url}
                         alt={img.alt}
-                        width={400}
-                        height={250}
                         className={`object-cover w-full h-full absolute top-0 left-0 transition-opacity duration-700 ${i === current ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
                         onClick={() => { setModalOpen(true); setModalIndex(i); }}
                         style={{ cursor: 'pointer' }}

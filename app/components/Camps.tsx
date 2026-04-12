@@ -22,7 +22,7 @@ export default async function Camps({ draftMode = false }: { draftMode?: boolean
                             {camp.gallery && camp.gallery.length > 0 && (
                                 <CampSlider
                                     images={camp.gallery.map((img: any, i: number) => ({
-                                        url: img.asset ? urlFor(img.asset).width(900).height(560).quality(100).url() : "https://via.placeholder.com/900x560",
+                                        url: img.asset ? urlFor(img.asset).width(400).height(250).quality(100).url() : "https://via.placeholder.com/900x560",
                                         alt: camp.name + ' photo ' + (i + 1),
                                     }))}
                                 />

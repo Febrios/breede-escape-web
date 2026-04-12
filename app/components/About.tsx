@@ -29,7 +29,7 @@ export default async function About({ draftMode = false }: { draftMode?: boolean
                         {badges.length > 0 && (
                             <div className="flex justify-center gap-6 mt-8">
                                 {badges.map((badge: Badge, idx: number) => {
-                                    const iconUrl = badge.icon ? urlFor(badge.icon).width(100).height(100).quality(80).url() : null;
+                                    const iconUrl = badge.icon ? urlFor(badge.icon).width(100).height(100).quality(100).url() : null;
                                     const badgeImg = iconUrl ? (
                                         <img
                                             key={iconUrl}
