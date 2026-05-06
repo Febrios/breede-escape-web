@@ -29,23 +29,47 @@ jobs:
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
       - name: Deploy infrastructure (Bicep)
+        env:
+          GOOGLE_SERVICE_ACCOUNT_JSON: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}
         run: |
           LOCATION=$(az group show --name "${{ secrets.AZURE_RESOURCE_GROUP }}" --query location -o tsv)
+          PARAMETERS_FILE=$(mktemp)
+          trap 'rm -f "$PARAMETERS_FILE"' EXIT
+
+          jq -n \
+            --arg location "$LOCATION" \
+            --arg containerAppName "${{ secrets.AZURE_CONTAINER_APP }}" \
+            --arg containerAppEnvironmentName "${{ secrets.AZURE_CONTAINER_ENVIRONMENT }}" \
+            --arg registryServer "ghcr.io" \
+            --arg registryUsername "${{ github.repository_owner }}" \
+            --arg registryPassword "${{ secrets.GHCR_TOKEN }}" \
+            --arg nextPublicSanityProjectId "${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}" \
+            --arg nextPublicSanityDataset "${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}" \
+            --arg googleServiceAccountJson "$GOOGLE_SERVICE_ACCOUNT_JSON" \
+            --arg googlePlacesApiKey "${{ secrets.GOOGLE_PLACES_API_KEY }}" \
+            --arg googlePlaceId "${{ secrets.GOOGLE_PLACE_ID }}" \
+            '{
+              "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+              contentVersion: "1.0.0.0",
+              parameters: {
+                location: { value: $location },
+                containerAppName: { value: $containerAppName },
+                containerAppEnvironmentName: { value: $containerAppEnvironmentName },
+                registryServer: { value: $registryServer },
+                registryUsername: { value: $registryUsername },
+                registryPassword: { value: $registryPassword },
+                nextPublicSanityProjectId: { value: $nextPublicSanityProjectId },
+                nextPublicSanityDataset: { value: $nextPublicSanityDataset },
+                googleServiceAccountJson: { value: $googleServiceAccountJson },
+                googlePlacesApiKey: { value: $googlePlacesApiKey },
+                googlePlaceId: { value: $googlePlaceId }
+              }
+            }' > "$PARAMETERS_FILE"
+
           az deployment group create \
             --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
             --template-file infra/container-app.bicep \
-            --parameters \
-              location="$LOCATION" \
-              containerAppName="${{ secrets.AZURE_CONTAINER_APP }}" \
-              containerAppEnvironmentName="${{ secrets.AZURE_CONTAINER_ENVIRONMENT }}" \
-              registryServer="ghcr.io" \
-              registryUsername="${{ github.repository_owner }}" \
-              registryPassword="${{ secrets.GHCR_TOKEN }}" \
-              nextPublicSanityProjectId="${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}" \
-              nextPublicSanityDataset="${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}" \
-              googleServiceAccountJson="${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}" \
-              googlePlacesApiKey="${{ secrets.GOOGLE_PLACES_API_KEY }}" \
-              googlePlaceId="${{ secrets.GOOGLE_PLACE_ID }}"
+            --parameters "@$PARAMETERS_FILE"
 
   build-and-push:
     needs: infra
