@@ -9,6 +9,12 @@ COPY package.json package-lock.json* yarn.lock* ./
 # Install dependencies
 RUN npm ci || yarn install --frozen-lockfile
 
+# Build args for public env vars needed at build time
+ARG NEXT_PUBLIC_SANITY_PROJECT_ID
+ARG NEXT_PUBLIC_SANITY_DATASET
+ENV NEXT_PUBLIC_SANITY_PROJECT_ID=$NEXT_PUBLIC_SANITY_PROJECT_ID
+ENV NEXT_PUBLIC_SANITY_DATASET=$NEXT_PUBLIC_SANITY_DATASET
+
 # Copy source code
 COPY . .
 
@@ -20,7 +26,7 @@ FROM node:20-alpine AS runner
 
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 # Copy package files
 COPY package.json package-lock.json* yarn.lock* ./
