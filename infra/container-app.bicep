@@ -7,15 +7,15 @@ param containerAppName string
 @description('Azure Container Apps managed environment name.')
 param containerAppEnvironmentName string
 
-@description('Container registry server, e.g. myregistry.azurecr.io.')
-param acrServer string
+@description('Container registry server, e.g. ghcr.io.')
+param registryServer string
 
 @description('Container registry username.')
-param acrUsername string
+param registryUsername string
 
 @secure()
-@description('Container registry password.')
-param acrPassword string
+@description('Container registry password (GitHub PAT with read:packages scope).')
+param registryPassword string
 
 @description('Initial image used when creating the container app.')
 param initialImage string = 'mcr.microsoft.com/k8se/quickstart:latest'
@@ -37,7 +37,7 @@ param googlePlaceId string
 param minReplicas int = 1
 
 @description('Maximum number of replicas.')
-param maxReplicas int = 5
+param maxReplicas int = 1
 
 resource managedEnvironment 'Microsoft.App/managedEnvironments@2024-03-01' = {
   name: containerAppEnvironmentName
@@ -58,15 +58,15 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
       }
       registries: [
         {
-          server: acrServer
-          username: acrUsername
-          passwordSecretRef: 'acr-password'
+          server: registryServer
+          username: registryUsername
+          passwordSecretRef: 'registry-password'
         }
       ]
       secrets: [
         {
-          name: 'acr-password'
-          value: acrPassword
+          name: 'registry-password'
+          value: registryPassword
         }
         {
           name: 'google-places-api-key'

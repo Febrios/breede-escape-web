@@ -17,7 +17,7 @@ GitHub Repository
     ↓
 GitHub Actions Workflow
     ↓
-Azure Container Registry (push image)
+GitHub Container Registry / GHCR (push image)
     ↓
 Azure Container Apps (pull & run)
     ↓
@@ -26,7 +26,7 @@ Container Environment (networking, scaling)
 
 ## Step 1: Create Base Azure Resources
 
-The pipeline deploys Container Apps infrastructure via Bicep, but you still need a resource group and container registry created once.
+The pipeline deploys Container Apps infrastructure via Bicep, but you still need a resource group created once. No container registry needs to be provisioned — images are stored in GHCR for free.
 
 ### 1.1 Create a Resource Group
 
@@ -36,48 +36,24 @@ az group create \
   --location eastus
 ```
 
-### 1.2 Create Azure Container Registry
+## Step 2: Configure GHCR Access
 
-```bash
-az acr create \
-  --resource-group rg-breede-escape \
-  --name crbreedescape \
-  --sku Basic
-```
+### 2.1 Create a GitHub PAT for Azure
 
-## Step 2: Configure Registry Access
+Azure Container Apps needs a token to pull images from GHCR at runtime. Create a GitHub Personal Access Token (classic) with the `read:packages` scope:
 
-### 2.1 Create Service Principal for GitHub
+1. Go to **GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)**
+2. Generate a new token with `read:packages` scope
+3. Copy the token — you'll use it as `GHCR_TOKEN` in GitHub secrets
 
-```bash
-az ad sp create-for-rbac \
-  --name "breede-escape-gh-actions" \
-  --role acrpush \
-  --scopes /subscriptions/{SUBSCRIPTION_ID}/resourceGroups/rg-breede-escape
-```
-
-Save the output - you'll need it for GitHub secrets.
-
-### 2.2 Enable Admin Access (Alternative to Service Principal)
-
-```bash
-az acr update -n crbreedescape --admin-enabled true
-```
-
-Get credentials:
-
-```bash
-az acr credential show -n crbreedescape
-```
+The push step uses the built-in `GITHUB_TOKEN` automatically — no extra setup needed.
 
 ## Step 3: Configure GitHub Secrets
 
 Add these secrets to your GitHub repository (Settings → Secrets and Variables → Actions):
 
 ```
-AZURE_REGISTRY_URL              → <registry-name>.azurecr.io
-AZURE_REGISTRY_USERNAME         → <username>
-AZURE_REGISTRY_PASSWORD         → <password>
+GHCR_TOKEN                      → GitHub PAT with read:packages scope (for Azure to pull images)
 
 AZURE_CLIENT_ID                 → <from service principal>
 AZURE_TENANT_ID                 → <from service principal>
@@ -94,7 +70,7 @@ GOOGLE_PLACES_API_KEY           → <your google places api key>
 GOOGLE_PLACE_ID                 → <your google place id>
 ```
 
-These values are consumed by the pipeline and injected via Bicep before deployment.
+> **Note:** `AZURE_REGISTRY_URL`, `AZURE_REGISTRY_USERNAME`, and `AZURE_REGISTRY_PASSWORD` are no longer needed.
 
 ## Step 4: Deploy Infrastructure as Pipeline Step 1 (Bicep)
 
@@ -186,9 +162,9 @@ az monitor metrics list \
 
 ### Image won't pull from registry
 
-- Verify registry credentials in GitHub secrets
-- Check registry admin is enabled: `az acr update -n crbreedescape --admin-enabled true`
-- Verify service principal has `acrpush` role
+- Verify `GHCR_TOKEN` secret is set and has `read:packages` scope
+- Ensure the package (image) visibility is set correctly on GitHub — either public, or the PAT has access
+- Check the image name matches: `ghcr.io/<owner>/breede-escape-web`
 
 ### Container won't start
 
