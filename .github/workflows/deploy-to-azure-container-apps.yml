@@ -49,6 +49,8 @@ jobs:
   build-and-push:
     needs: infra
     runs-on: ubuntu-latest
+    outputs:
+      latest_tag: ${{ steps.meta.outputs.LATEST_TAG }}
     permissions:
       contents: read
       packages: write
@@ -73,9 +75,11 @@ jobs:
           TIMESTAMP=$(date +%s)
           SHORT_SHA=${{ github.sha }}
           SHORT_SHA=${SHORT_SHA:0:7}
-          IMAGE_BASE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          OWNER_LOWER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          IMAGE_BASE="${{ env.REGISTRY }}/${OWNER_LOWER}/breede-escape-web"
           TAG="${IMAGE_BASE}:${{ github.ref_name }}-${SHORT_SHA}-${TIMESTAMP}"
           LATEST_TAG="${IMAGE_BASE}:latest"
+          echo "IMAGE_BASE=${IMAGE_BASE}" >> $GITHUB_OUTPUT
           echo "IMAGE_TAG=${TAG}" >> $GITHUB_OUTPUT
           echo "LATEST_TAG=${LATEST_TAG}" >> $GITHUB_OUTPUT
           echo "SHORT_SHA=${SHORT_SHA}" >> $GITHUB_OUTPUT
@@ -117,7 +121,7 @@ jobs:
           resourceGroup: ${{ secrets.AZURE_RESOURCE_GROUP }}
           containerAppName: ${{ secrets.AZURE_CONTAINER_APP }}
           containerAppEnvironment: ${{ secrets.AZURE_CONTAINER_ENVIRONMENT }}
-          imageToDeploy: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          imageToDeploy: ${{ needs.build-and-push.outputs.latest_tag }}
           registryUrl: ghcr.io
           registryUsername: ${{ github.repository_owner }}
           registryPassword: ${{ secrets.GHCR_TOKEN }}
