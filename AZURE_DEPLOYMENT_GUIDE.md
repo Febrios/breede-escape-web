@@ -1,0 +1,224 @@
+﻿# Azure Container Apps Deployment Guide
+
+This guide provides setup instructions for deploying the Breede Escape web application to Azure Container Apps.
+
+## Prerequisites
+
+- Azure subscription with active account
+- [Azure CLI](https://learn.microsoft.com/en-us/cli/azure/install-azure-cli) installed
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) installed (for local testing)
+- GitHub repository with write access
+- Owner/Contributor role in Azure subscription
+
+## Architecture Overview
+
+```
+GitHub Repository
+    ↓
+GitHub Actions Workflow
+    ↓
+Azure Container Registry (push image)
+    ↓
+Azure Container Apps (pull & run)
+    ↓
+Container Environment (networking, scaling)
+```
+
+## Step 1: Create Azure Resources
+
+### 1.1 Create a Resource Group
+
+```bash
+az group create \
+  --name rg-breede-escape \
+  --location eastus
+```
+
+### 1.2 Create Azure Container Registry
+
+```bash
+az acr create \
+  --resource-group rg-breede-escape \
+  --name crbreedescape \
+  --sku Basic
+```
+
+### 1.3 Create Container Apps Environment
+
+```bash
+az containerapp env create \
+  --name cae-breede-escape \
+  --resource-group rg-breede-escape \
+  --location eastus
+```
+
+### 1.4 Create Container App
+
+```bash
+az containerapp create \
+  --name ca-breede-escape \
+  --resource-group rg-breede-escape \
+  --environment cae-breede-escape \
+  --image mcr.microsoft.com/k8se/quickstart:latest \
+  --target-port 3000 \
+  --ingress external \
+  --query properties.configuration.ingress.fqdn
+```
+
+## Step 2: Configure Registry Access
+
+### 2.1 Create Service Principal for GitHub
+
+```bash
+az ad sp create-for-rbac \
+  --name "breede-escape-gh-actions" \
+  --role acrpush \
+  --scopes /subscriptions/{SUBSCRIPTION_ID}/resourceGroups/rg-breede-escape
+```
+
+Save the output - you'll need it for GitHub secrets.
+
+### 2.2 Enable Admin Access (Alternative to Service Principal)
+
+```bash
+az acr update -n crbreedescape --admin-enabled true
+```
+
+Get credentials:
+
+```bash
+az acr credential show -n crbreedescape
+```
+
+## Step 3: Configure GitHub Secrets
+
+Add these secrets to your GitHub repository (Settings → Secrets and Variables → Actions):
+
+```
+AZURE_REGISTRY_URL              → <registry-name>.azurecr.io
+AZURE_REGISTRY_USERNAME         → <username>
+AZURE_REGISTRY_PASSWORD         → <password>
+
+AZURE_CLIENT_ID                 → <from service principal>
+AZURE_TENANT_ID                 → <from service principal>
+AZURE_SUBSCRIPTION_ID           → <your subscription id>
+
+AZURE_RESOURCE_GROUP            → rg-breede-escape
+AZURE_CONTAINER_ENVIRONMENT     → cae-breede-escape
+AZURE_CONTAINER_APP             → ca-breede-escape
+AZURE_CONTAINER_APP_URL         → <your-app-url>.azurecontainerapps.io
+
+NEXT_PUBLIC_SANITY_PROJECT_ID   → <your sanity project id>
+NEXT_PUBLIC_SANITY_DATASET      → <your sanity dataset>
+```
+
+## Step 4: Configure Container App Environment Variables
+
+```bash
+az containerapp update \
+  --name ca-breede-escape \
+  --resource-group rg-breede-escape \
+  --set-env-vars \
+    NEXT_PUBLIC_SANITY_PROJECT_ID=<value> \
+    NEXT_PUBLIC_SANITY_DATASET=<value>
+```
+
+## Step 5: Configure Auto-Scaling
+
+```bash
+az containerapp update \
+  --name ca-breede-escape \
+  --resource-group rg-breede-escape \
+  --min-replicas 1 \
+  --max-replicas 5
+```
+
+## Step 6: Testing Locally (Optional)
+
+Build and test the Docker image locally:
+
+```bash
+# Build the image
+docker build -t breede-escape-web:latest .
+
+# Run the container
+docker run -p 3000:3000 \
+  -e NEXT_PUBLIC_SANITY_PROJECT_ID=<your-id> \
+  -e NEXT_PUBLIC_SANITY_DATASET=<your-dataset> \
+  breede-escape-web:latest
+
+# Visit http://localhost:3000
+```
+
+## Deployment Flow
+
+1. **Push to `main` branch** → Builds image and deploys to the container app
+
+## Monitoring & Logs
+
+### View logs:
+
+```bash
+az containerapp logs show \
+  --name ca-breede-escape \
+  --resource-group rg-breede-escape \
+  --follow
+```
+
+### Monitor metrics:
+
+```bash
+az monitor metrics list \
+  --resource /subscriptions/{SUBSCRIPTION_ID}/resourceGroups/rg-breede-escape/providers/Microsoft.App/containerApps/ca-breede-escape \
+  --metric Requests,ProcessorCount,MemoryUsage \
+  --start-time $(date -u -d '1 hour ago' +%Y-%m-%dT%H:%M:%SZ) \
+  --interval PT1M
+```
+
+## Troubleshooting
+
+### Image won't pull from registry
+
+- Verify registry credentials in GitHub secrets
+- Check registry admin is enabled: `az acr update -n crbreedescape --admin-enabled true`
+- Verify service principal has `acrpush` role
+
+### Container won't start
+
+- Check logs: `az containerapp logs show --name ca-breede-escape --resource-group rg-breede-escape --follow`
+- Verify environment variables are set correctly
+- Check Next.js build succeeded locally: `npm run build`
+
+### App is slow or timing out
+
+- Check memory/CPU allocation: `az containerapp show -n ca-breede-escape -g rg-breede-escape`
+- Increase resources: `az containerapp update -n ca-breede-escape -g rg-breede-escape --cpu 1 --memory 2Gi`
+- Review logs for errors
+
+### Environment variables not loading
+
+- Re-update container app: `az containerapp update --name ca-breede-escape ...`
+- Ensure `NEXT_PUBLIC_*` prefix for client-side variables
+- Redeploy image to pick up changes
+
+## Cleanup
+
+To remove all resources:
+
+```bash
+az group delete --name rg-breede-escape --yes --no-wait
+```
+
+## Further Documentation
+
+- [Azure Container Apps Documentation](https://learn.microsoft.com/en-us/azure/container-apps/)
+- [Next.js Deployment Guide](https://nextjs.org/docs/deployment)
+- [Azure CLI Reference](https://learn.microsoft.com/en-us/cli/azure/reference-index)
+- [GitHub Actions for Azure](https://github.com/Azure/actions)
+
+## Cost Optimization Tips
+
+- Set min replicas to 0 when traffic is low (scale to zero)
+- Set appropriate CPU/memory limits to avoid overprovisioning
+- Use consumption-based pricing tier where possible
+- Regularly review cost management in Azure Portal

@@ -1,0 +1,34 @@
+info:
+  name: Delete document
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: https://{{sanity_project_id}}.api.sanity.io/:version/data/mutate/{{sanity_dataset}}
+  params:
+    - name: version
+      value: v2024-04-08
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+          "mutations": [
+            {
+              "createOrReplace": {
+                "_id": "heroSettings",
+                "_type": "heroSettings",
+                "content": "Camping and thatched huts on the banks of the Breede River on a working farm between Bonnievale and Swellendam. Peaceful, tranquil surroundings and wide open skies ...",
+                "backgroundImage": null
+              }
+            }
+          ]
+        }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

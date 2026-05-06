@@ -1,0 +1,32 @@
+info:
+  name: Fetch Camps
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: |-
+    https://{{sanity_project_id}}.api.sanity.io/:version/data/query/{{sanity_dataset}}?query=*[_type == "camp"]|order(order asc){
+                _id,
+                name,
+            }
+  params:
+    - name: query
+      value: |-
+        *[_type == "camp"]|order(order asc){
+                    _id,
+                    name,
+                }
+      type: query
+    - name: version
+      value: v2024-04-08
+      type: path
+  auth:
+    type: bearer
+    token: "{{sanity_api_token}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

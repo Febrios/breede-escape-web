@@ -1,0 +1,8 @@
+name: production
+variables:
+  - name: sanity_project_id
+    value: 3iykp3zi
+  - name: sanity_dataset
+    value: production
+  - name: sanity_api_token
+    value: skD0RJJzFb34BqKg7pCicRQ8LuYqdcm7UG2Swze4SFjC5jwDIU0DhETUSfl3BMz9IdOngEp7cfUyyHMfbf3BwMZnfSPpdHbtJb1unnC3gghy2DBg3dQG6ZMvYU4jtKuMhtciiZKdeN7uA1w0a2VHl0weTSL5sa7ZSB51rnEHyW42fPyOHuqt

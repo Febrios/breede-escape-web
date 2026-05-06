@@ -39,3 +39,22 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Docker
+.docker
+.dockerignore
+docker-compose.override.yml
+
+# Azure
+.azure
+azure-config.env
+local.settings.json
+
+# IDE
+.vscode/settings.json
+.vscode/extensions.json
+.idea/
+
+# OS
+Thumbs.db
+.env.local
