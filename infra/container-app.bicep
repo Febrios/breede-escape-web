@@ -30,6 +30,10 @@ param nextPublicSanityDataset string
 @description('Google Places API key used by the server API route.')
 param googlePlacesApiKey string
 
+@secure()
+@description('Google service account JSON used by the calendar API route.')
+param googleServiceAccountJson string
+
 @description('Google Place ID used by the server API route.')
 param googlePlaceId string
 
@@ -72,6 +76,10 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
           name: 'google-places-api-key'
           value: googlePlacesApiKey
         }
+        {
+          name: 'google-service-account-json'
+          value: googleServiceAccountJson
+        }
       ]
     }
     template: {
@@ -99,6 +107,10 @@ resource containerApp 'Microsoft.App/containerApps@2024-03-01' = {
             {
               name: 'GOOGLE_PLACES_API_KEY'
               secretRef: 'google-places-api-key'
+            }
+            {
+              name: 'GOOGLE_SERVICE_ACCOUNT_JSON'
+              secretRef: 'google-service-account-json'
             }
           ]
           resources: {

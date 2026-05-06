@@ -43,6 +43,7 @@ jobs:
               registryPassword="${{ secrets.GHCR_TOKEN }}" \
               nextPublicSanityProjectId="${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}" \
               nextPublicSanityDataset="${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}" \
+              googleServiceAccountJson="${{ secrets.GOOGLE_SERVICE_ACCOUNT_JSON }}" \
               googlePlacesApiKey="${{ secrets.GOOGLE_PLACES_API_KEY }}" \
               googlePlaceId="${{ secrets.GOOGLE_PLACE_ID }}"
 

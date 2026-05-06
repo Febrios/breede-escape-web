@@ -66,6 +66,7 @@ AZURE_CONTAINER_APP_URL         → <your-app-url>.azurecontainerapps.io
 
 NEXT_PUBLIC_SANITY_PROJECT_ID   → <your sanity project id>
 NEXT_PUBLIC_SANITY_DATASET      → <your sanity dataset>
+GOOGLE_SERVICE_ACCOUNT_JSON     → <full Google service account JSON, single line JSON string>
 GOOGLE_PLACES_API_KEY           → <your google places api key>
 GOOGLE_PLACE_ID                 → <your google place id>
 ```
@@ -82,6 +83,7 @@ It configures:
 - Container app ingress and scale settings
 - Registry binding
 - Runtime app environment variables and secrets, including Google Places
+- Runtime app environment variables and secrets, including Google Calendar service account JSON and Google Places
 
 ## Step 5: Trigger Deployment
 
@@ -100,6 +102,7 @@ az containerapp update \
   --set-env-vars \
     NEXT_PUBLIC_SANITY_PROJECT_ID=<value> \
     NEXT_PUBLIC_SANITY_DATASET=<value> \
+    GOOGLE_SERVICE_ACCOUNT_JSON='<full-json>' \
     GOOGLE_PLACES_API_KEY=<value> \
     GOOGLE_PLACE_ID=<value>
 ```
@@ -126,6 +129,7 @@ docker build -t breede-escape-web:latest .
 docker run -p 3000:3000 \
   -e NEXT_PUBLIC_SANITY_PROJECT_ID=<your-id> \
   -e NEXT_PUBLIC_SANITY_DATASET=<your-dataset> \
+  -e GOOGLE_SERVICE_ACCOUNT_JSON='<full-json>' \
   -e GOOGLE_PLACES_API_KEY=<your-google-places-api-key> \
   -e GOOGLE_PLACE_ID=<your-google-place-id> \
   breede-escape-web:latest
@@ -182,7 +186,7 @@ az monitor metrics list \
 
 - Re-update container app: `az containerapp update --name ca-breede-escape ...`
 - Ensure `NEXT_PUBLIC_*` prefix for client-side variables
-- Ensure server-side Google variables are set: `GOOGLE_PLACES_API_KEY`, `GOOGLE_PLACE_ID`
+- Ensure server-side Google variables are set: `GOOGLE_SERVICE_ACCOUNT_JSON`, `GOOGLE_PLACES_API_KEY`, `GOOGLE_PLACE_ID`
 - Redeploy image to pick up changes
 
 ## Cleanup

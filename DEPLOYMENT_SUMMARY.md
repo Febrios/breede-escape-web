@@ -124,6 +124,7 @@ All `NEXT_PUBLIC_*` variables are client-side (visible in frontend):
 - `NEXT_PUBLIC_SANITY_DATASET`
 
 Server-side variables (required for API routes):
+- `GOOGLE_SERVICE_ACCOUNT_JSON`
 - `GOOGLE_PLACES_API_KEY`
 - `GOOGLE_PLACE_ID`
 
