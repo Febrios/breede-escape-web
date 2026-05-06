@@ -11,7 +11,43 @@ env:
   NODE_VERSION: '20'
 
 jobs:
+  infra:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Deploy infrastructure (Bicep)
+        run: |
+          LOCATION=$(az group show --name "${{ secrets.AZURE_RESOURCE_GROUP }}" --query location -o tsv)
+          az deployment group create \
+            --resource-group "${{ secrets.AZURE_RESOURCE_GROUP }}" \
+            --template-file infra/container-app.bicep \
+            --parameters \
+              location="$LOCATION" \
+              containerAppName="${{ secrets.AZURE_CONTAINER_APP }}" \
+              containerAppEnvironmentName="${{ secrets.AZURE_CONTAINER_ENVIRONMENT }}" \
+              acrServer="${{ secrets.AZURE_REGISTRY_URL }}" \
+              acrUsername="${{ secrets.AZURE_REGISTRY_USERNAME }}" \
+              acrPassword="${{ secrets.AZURE_REGISTRY_PASSWORD }}" \
+              nextPublicSanityProjectId="${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}" \
+              nextPublicSanityDataset="${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}" \
+              googlePlacesApiKey="${{ secrets.GOOGLE_PLACES_API_KEY }}" \
+              googlePlaceId="${{ secrets.GOOGLE_PLACE_ID }}"
+
   build-and-push:
+    needs: infra
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -57,7 +93,7 @@ jobs:
 
 
   deploy:
-    needs: build-and-push
+    needs: [infra, build-and-push]
     runs-on: ubuntu-latest
     permissions:
       contents: read

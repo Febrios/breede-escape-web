@@ -29,11 +29,10 @@ This document summarizes the Azure Container Apps deployment setup for Breede Es
 - Health checks enabled
 - Environment variable pass-through
 
-### 5. **Setup Script** (`setup-azure.sh`)
-- Automated Azure resource provisioning
-- Creates Container Apps, Registry, Environment
-- Configures environment variables
-- Displays required GitHub secrets
+### 5. **Bicep Infrastructure Template** (`infra/container-app.bicep`)
+- Infrastructure as Code for Azure Container Apps resources
+- Defines managed environment, container app ingress, scale, and runtime env vars
+- Injects required secrets (ACR password, Google Places API key)
 
 ### 6. **Deployment Guides**
 - `AZURE_DEPLOYMENT_GUIDE.md` - Complete setup instructions
@@ -42,19 +41,13 @@ This document summarizes the Azure Container Apps deployment setup for Breede Es
 
 ## Quick Start
 
-### Step 1: Set Up Azure Resources
+### Step 1: Set Up Base Azure Resources
 ```bash
-chmod +x setup-azure.sh
-./setup-azure.sh
+az group create --name rg-breede-escape --location eastus
+az acr create --resource-group rg-breede-escape --name <registry-name> --sku Basic
 ```
 
-This will:
-- Create Resource Group
-- Create Container Registry
-- Create Container App Environment
-- Create Staging & Production Container Apps
-- Configure environment variables
-- Display GitHub secrets to add
+The pipeline creates/updates Container Apps infrastructure from Bicep.
 
 ### Step 2: Add GitHub Secrets
 Copy the displayed secrets to your GitHub repository:
@@ -129,6 +122,10 @@ Monitoring:
 All `NEXT_PUBLIC_*` variables are client-side (visible in frontend):
 - `NEXT_PUBLIC_SANITY_PROJECT_ID`
 - `NEXT_PUBLIC_SANITY_DATASET`
+
+Server-side variables (required for API routes):
+- `GOOGLE_PLACES_API_KEY`
+- `GOOGLE_PLACE_ID`
 
 Set these in Azure Container Apps via the deployment guide.
 
@@ -217,7 +214,7 @@ See `AZURE_DEPLOYMENT_GUIDE.md` for detailed troubleshooting.
 
 ## Next Steps
 
-1. ✅ Run `setup-azure.sh` to provision resources
+1. ✅ Create resource group and ACR
 2. ✅ Add GitHub secrets to repository
 3. ✅ Test locally with `docker-compose up`
 4. ✅ Create a PR to test staging deployment
@@ -241,4 +238,4 @@ For issues or improvements:
 
 ---
 
-**Setup completed**: All deployment infrastructure is ready. Next action: Run `setup-azure.sh`
+**Setup completed**: Pipeline is configured for Bicep-first deployment. Next action: Add required GitHub secrets and push to `main`.

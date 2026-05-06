@@ -24,6 +24,8 @@
    docker run -p 3000:3000 \
      -e NEXT_PUBLIC_SANITY_PROJECT_ID=<your-value> \
      -e NEXT_PUBLIC_SANITY_DATASET=<your-value> \
+     -e GOOGLE_PLACES_API_KEY=<your-google-places-api-key> \
+     -e GOOGLE_PLACE_ID=<your-google-place-id> \
      breede-escape-web:latest
    ```
 
@@ -59,6 +61,8 @@ Create a `.env` file in the project root:
 ```
 NEXT_PUBLIC_SANITY_PROJECT_ID=your_project_id
 NEXT_PUBLIC_SANITY_DATASET=your_dataset
+GOOGLE_PLACES_API_KEY=your_google_places_api_key
+GOOGLE_PLACE_ID=your_google_place_id
 ```
 
 ## Testing the Container Locally

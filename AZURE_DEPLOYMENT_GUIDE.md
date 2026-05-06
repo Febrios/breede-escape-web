@@ -24,7 +24,9 @@ Azure Container Apps (pull & run)
 Container Environment (networking, scaling)
 ```
 
-## Step 1: Create Azure Resources
+## Step 1: Create Base Azure Resources
+
+The pipeline deploys Container Apps infrastructure via Bicep, but you still need a resource group and container registry created once.
 
 ### 1.1 Create a Resource Group
 
@@ -41,28 +43,6 @@ az acr create \
   --resource-group rg-breede-escape \
   --name crbreedescape \
   --sku Basic
-```
-
-### 1.3 Create Container Apps Environment
-
-```bash
-az containerapp env create \
-  --name cae-breede-escape \
-  --resource-group rg-breede-escape \
-  --location eastus
-```
-
-### 1.4 Create Container App
-
-```bash
-az containerapp create \
-  --name ca-breede-escape \
-  --resource-group rg-breede-escape \
-  --environment cae-breede-escape \
-  --image mcr.microsoft.com/k8se/quickstart:latest \
-  --target-port 3000 \
-  --ingress external \
-  --query properties.configuration.ingress.fqdn
 ```
 
 ## Step 2: Configure Registry Access
@@ -110,9 +90,32 @@ AZURE_CONTAINER_APP_URL         → <your-app-url>.azurecontainerapps.io
 
 NEXT_PUBLIC_SANITY_PROJECT_ID   → <your sanity project id>
 NEXT_PUBLIC_SANITY_DATASET      → <your sanity dataset>
+GOOGLE_PLACES_API_KEY           → <your google places api key>
+GOOGLE_PLACE_ID                 → <your google place id>
 ```
 
-## Step 4: Configure Container App Environment Variables
+These values are consumed by the pipeline and injected via Bicep before deployment.
+
+## Step 4: Deploy Infrastructure as Pipeline Step 1 (Bicep)
+
+The workflow deploys `infra/container-app.bicep` as the first job (`infra`) before image build/deploy.
+
+It configures:
+
+- Container Apps managed environment
+- Container app ingress and scale settings
+- Registry binding
+- Runtime app environment variables and secrets, including Google Places
+
+## Step 5: Trigger Deployment
+
+Push to `main` to run the pipeline:
+
+1. `infra` job: deploys `infra/container-app.bicep`
+2. `build-and-push` job: builds and pushes the image
+3. `deploy` job: updates the container app image
+
+## Step 6: Configure Container App Environment Variables (Manual fallback)
 
 ```bash
 az containerapp update \
@@ -120,10 +123,12 @@ az containerapp update \
   --resource-group rg-breede-escape \
   --set-env-vars \
     NEXT_PUBLIC_SANITY_PROJECT_ID=<value> \
-    NEXT_PUBLIC_SANITY_DATASET=<value>
+    NEXT_PUBLIC_SANITY_DATASET=<value> \
+    GOOGLE_PLACES_API_KEY=<value> \
+    GOOGLE_PLACE_ID=<value>
 ```
 
-## Step 5: Configure Auto-Scaling
+## Step 7: Configure Auto-Scaling
 
 ```bash
 az containerapp update \
@@ -133,7 +138,7 @@ az containerapp update \
   --max-replicas 5
 ```
 
-## Step 6: Testing Locally (Optional)
+## Step 8: Testing Locally (Optional)
 
 Build and test the Docker image locally:
 
@@ -145,6 +150,8 @@ docker build -t breede-escape-web:latest .
 docker run -p 3000:3000 \
   -e NEXT_PUBLIC_SANITY_PROJECT_ID=<your-id> \
   -e NEXT_PUBLIC_SANITY_DATASET=<your-dataset> \
+  -e GOOGLE_PLACES_API_KEY=<your-google-places-api-key> \
+  -e GOOGLE_PLACE_ID=<your-google-place-id> \
   breede-escape-web:latest
 
 # Visit http://localhost:3000
@@ -199,6 +206,7 @@ az monitor metrics list \
 
 - Re-update container app: `az containerapp update --name ca-breede-escape ...`
 - Ensure `NEXT_PUBLIC_*` prefix for client-side variables
+- Ensure server-side Google variables are set: `GOOGLE_PLACES_API_KEY`, `GOOGLE_PLACE_ID`
 - Redeploy image to pick up changes
 
 ## Cleanup
