@@ -51,8 +51,7 @@ jobs:
           tags: |
             ${{ steps.meta.outputs.IMAGE_TAG }}
             ${{ steps.meta.outputs.LATEST_TAG }}
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cache
-          cache-to: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:cache,mode=max
+
 
   deploy:
     needs: build-and-push
