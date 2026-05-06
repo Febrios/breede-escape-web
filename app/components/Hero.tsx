@@ -23,7 +23,7 @@ export default async function Hero({ draftMode = false }: { draftMode?: boolean 
           Since 1994 · Bonnievale, Western Cape
         </div>
         <h1 className="font-serif text-[clamp(3rem,8vw,7rem)] font-black leading-[0.95] text-[var(--cream)] mb-4" style={{ opacity: 1, animation: 'fadeUp 0.9s 0.5s forwards' }}>
-          Life at the <em className="text-[var(--gold)] italic not-italic">River.</em>
+          Life at the <em className="text-[var(--gold)] italic not-italic">River</em>
         </h1>
         <p className="hero-sub mt-6 text-[clamp(0.95rem,2vw,1.15rem)] text-[rgba(245,240,232,0.75)] font-light max-w-[480px] leading-[1.7] mb-4" style={{ opacity: 1, animation: 'fadeUp 0.9s 0.7s forwards' }}>
           {heroContent}

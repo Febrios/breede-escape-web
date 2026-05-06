@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
 import { urlFor } from "../../lib/sanity";
 
@@ -22,11 +21,9 @@ export default function GalleryClient({ galleryContent, images }: { galleryConte
                 <div className="gallery-grid grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-1 mb-6">
                     {visibleImages.map((img: any, i: number) => (
                         <div key={img.asset?._id || i + start} className={`gallery-item overflow-hidden`}>
-                            <Image
-                                src={urlFor(img.asset).width(600).height(400).fit("crop").url()}
+                            <img
+                                src={urlFor(img.asset).width(1200).height(800).quality(100).url()}
                                 alt={`Gallery image ${start + i + 1}`}
-                                width={600}
-                                height={400}
                                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105 hover:saturate-110 hover:brightness-100 saturate-90 brightness-95"
                             />
                         </div>
