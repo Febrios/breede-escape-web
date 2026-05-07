@@ -32,7 +32,7 @@ ENV NODE_ENV=production
 COPY package.json package-lock.json* yarn.lock* ./
 
 # Install production dependencies only
-RUN npm ci --omit=dev --omit=optional || yarn install --production --frozen-lockfile
+RUN npm ci --omit=dev || yarn install --production --frozen-lockfile
 
 # Copy built application from builder
 COPY --from=builder /app/.next ./.next
