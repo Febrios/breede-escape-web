@@ -56,6 +56,7 @@ export default async function About({ draftMode = false }: { draftMode?: boolean
                             alt="River camp at dusk"
                             width={600}
                             height={500}
+                            unoptimized
                         />
                         <div className="about-image-accent absolute bottom-[-1rem] left-[-1rem] w-[90px] h-[90px] sm:bottom-[-2rem] sm:left-[-2rem] sm:w-[200px] sm:h-[200px] bg-[var(--clay)] opacity-10 z-[-1] rounded-full"></div>
                         <div className="about-since absolute top-[-0.75rem] right-[-0.75rem] sm:top-[-1.5rem] sm:right-[-1.5rem] bg-[var(--forest)] text-[var(--gold)] px-4 py-2 sm:px-6 sm:py-4 text-center">

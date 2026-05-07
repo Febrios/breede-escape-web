@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
 
 interface CampSliderProps {
     images: { url: string; alt: string }[];
@@ -70,11 +69,9 @@ export default function CampSlider({ images, interval = 3500 }: CampSliderProps)
                         &#8592;
                     </button>
                     <div className="flex flex-col items-center">
-                        <Image
+                        <img
                             src={validImages[modalIndex].url}
                             alt={validImages[modalIndex].alt}
-                            width={1200}
-                            height={800}
                             className="object-contain max-h-[80vh] max-w-[90vw] rounded-lg shadow-2xl"
                             onClick={e => e.stopPropagation()}
                             onError={() => setBrokenUrls(urls => urls.includes(validImages[modalIndex].url) ? urls : [...urls, validImages[modalIndex].url])}
